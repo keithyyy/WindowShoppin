@@ -3,5 +3,24 @@ form.login {
   margin-top: 50px;
 }
 body {
-  background-image: url("../images/background.jpg");
+  background-image: url("../images/background-image.jpg");
+  font-family: "Montserrat Alternates", sans-serif;
+
+}
+
+h1 {
+  font-family: "Sonsie One", cursive;
+  text-align: center;
+  color:darkblue;
+}
+
+h3 {
+  font-weight: bold;
+  text-align: center;
+  color:chocolate
+}
+
+.panel-1 {
+  margin
+  
 }

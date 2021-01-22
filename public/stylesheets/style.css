@@ -10,9 +10,13 @@ h1 {
   color:darkblue;
 }
 
-h3 {
+h2 {
   font-weight: bold;
+  font-style: italic;
   text-align: center;
-  color:chocolate
+  color:maroon
 }
 
+#logo {
+  margin-top: 60px;
+}

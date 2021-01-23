@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "Xavier1977!",
+    "password": null,
     "database": "shoppinDB",
     "host": "127.0.0.1",
     "dialect": "mysql"

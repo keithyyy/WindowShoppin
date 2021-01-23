@@ -8,16 +8,16 @@
     </div>
     <div class="container">
       <div class="row">
-        <div class="container d-flex" id="new-product-container">
-          <div class="col-md-12 panel" id="add-new-product">
+        <div class="container d-flex" id="new-item-container">
+          <div class="col-md-12 panel" id="add-new-item">
             <tbody>
               <tr id="form-row">
-                <form id="product-form" style="display: flex" class="form-btn">
+                <form id="item-form" style="display: flex" class="form-btn">
                   <td colspan="12">
-                    <input placeholder="Enter a Product URL" id="product-url" type="text"/>
+                    <input placeholder="Enter a Product URL" id="item-url" type="text"/>
                   </td>
-                  <td><button type="submit" class="btn btn-success" id="submit-product">Create
-                      Author</button>
+                  <td>
+                    <button type="submit" class="btn btn-success" id="submit-item">Add New Item</button>
                   </td>
                 </form>
               </tr>
@@ -28,15 +28,15 @@
 
       <div class="row">
         <!-- this is where categories should show up -->
-        <div class="col-md-12 panel" id="category-1">
-          <h4>Category #1</h4>
+        <div class="col-md-12 panel" id="all-items">
+          <h4>Saved Items</h4>
+          <ul>
+            {{#each Items}}
+            {{> Items/item}}
+            {{/each}}
+          </ul>
         </div>
       </div>
       
-      <div class="row">
-        <div class="col-md-12 panel" id="category-2">
-          <h4>Category #2</h4>
-        </div>
-      </div>
     </div>
   </div>

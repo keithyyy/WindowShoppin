@@ -9,7 +9,7 @@ const scraperObject = {
             await newPage.goto(link);
             await newPage.waitForSelector('#productTitle');
             dataObj['itemTitle'] = await newPage.$eval('#productTitle', text => text.textContent.replace(/(\r\n\t|\n|\r|\t)/gm, ""));
-            dataObj['itemPrice'] = await newPage.$eval('#priceblock_ourprice', text => text.textContent);
+            dataObj['itemPrice'] = await newPage.$eval('#priceblock_ourprice', text => text.textContent.match(/(\d|.)+/g));
             dataObj['description'] = await newPage.$eval('#productDescription', text => text.textContent.replace(/(\r\n\t|\n|\r|\t)/gm, ""));
             // dataObj['imageUrl'] = await newPage.$eval('#ivLargeImage img', img => img.src);
             resolve(dataObj);

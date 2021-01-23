@@ -1,6 +1,7 @@
 // Requiring our models and passport as we've configured it
-var db = require("../models");
-var passport = require("../config/passport");
+let db = require("../models");
+let passport = require("../config/passport");
+let scraperController = require("../controllers/scraperController")
 
 module.exports = function(app) {
   // Using the passport.authenticate middleware with our local strategy.
@@ -45,5 +46,24 @@ module.exports = function(app) {
         id: req.user.id
       });
     }
+  });
+  // Route for scraping item data from url
+  app.post("/api/scrape", function(req, res) {
+    if (req.body.url) {
+      scraperController(req.body.url, (data) => {
+        console.log(data);
+      });
+    }
+    
+    // db.User.create({
+    //   email: req.body.email,
+    //   password: req.body.password
+    // })
+    //   .then(function() {
+    //     res.redirect(307, "/api/login");
+    //   })
+    //   .catch(function(err) {
+    //     res.status(401).json(err);
+    //   });
   });
 };

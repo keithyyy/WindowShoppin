@@ -2,3 +2,5 @@
 DROP DATABASE IF EXISTS shoppinDB;
 -- Creates the shoppinDB database --
 CREATE DATABASE shoppinDB;
+
+

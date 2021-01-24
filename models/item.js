@@ -14,14 +14,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Item.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
+    title: DataTypes.TEXT,
+    description: DataTypes.TEXT,
     url: DataTypes.STRING,
     initialPrice: DataTypes.DECIMAL(10,2),
     newPrice: DataTypes.DECIMAL(10,2),
     category: DataTypes.STRING,
     retailer: DataTypes.STRING,
-    isUpdated: DataTypes.BOOLEAN,
+    isUpdated: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     imgURL: DataTypes.STRING
   }, {
     sequelize,

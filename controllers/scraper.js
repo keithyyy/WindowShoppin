@@ -7,10 +7,18 @@ async function scrapeItem(url, cb) {
     'ignoreHTTPSErrors': true
 });
   const page = await browser.newPage();
-
+  await page.setRequestInterception(true);
+  page.on('request', (request) => {
+      if (request.resourceType() === 'document') {
+          request.continue();
+      } else {
+          request.abort();
+      }
+  });
   await page.goto(url);
   console.log(`Navigating to ${url}...`);
   let itemPromise = (link) => new Promise(async(resolve, reject) => {
+      try {
         let dataObj = {};
         await page.waitForSelector('#productTitle');
         dataObj['url'] = link;
@@ -20,6 +28,10 @@ async function scrapeItem(url, cb) {
         // dataObj['imageUrl'] = await newPage.$eval('#ivLargeImage img', img => img.src);
         resolve(dataObj);
         await page.close();
+      } catch (e) {
+          return reject(e)
+      }
+        
     });
 
     try{

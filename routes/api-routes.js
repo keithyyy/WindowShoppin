@@ -51,7 +51,7 @@ module.exports = function(app) {
   app.post("/api/scrape", function(req, res) {
     if (req.body.url) {
       scraperController(req.body.url, (data) => {
-        console.log(data);
+        console.log('scraped:', data);
       });
     }
     

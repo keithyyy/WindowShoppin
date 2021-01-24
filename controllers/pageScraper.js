@@ -8,8 +8,9 @@ const scraperObject = {
             let newPage = await browser.newPage();
             await newPage.goto(link);
             await newPage.waitForSelector('#productTitle');
-            dataObj['itemTitle'] = await newPage.$eval('#productTitle', text => text.textContent.replace(/(\r\n\t|\n|\r|\t)/gm, ""));
-            dataObj['itemPrice'] = await newPage.$eval('#priceblock_ourprice', text => text.textContent.match(/(\d|.)+/g));
+            dataObj['url'] = this.url;
+            dataObj['title'] = await newPage.$eval('#productTitle', text => text.textContent.replace(/(\r\n\t|\n|\r|\t)/gm, ""));
+            dataObj['initialPrice'] = await newPage.$eval('#priceblock_ourprice', text => Number(text.textContent.replace(/[^0-9\.]+/g,"")));
             dataObj['description'] = await newPage.$eval('#productDescription', text => text.textContent.replace(/(\r\n\t|\n|\r|\t)/gm, ""));
             // dataObj['imageUrl'] = await newPage.$eval('#ivLargeImage img', img => img.src);
             resolve(dataObj);
@@ -19,10 +20,15 @@ const scraperObject = {
         // Navigate to the selected page
         // await page.goto(this.url);
         // await page.waitForSelector('#productTitle');
-        const item = await itemPromise(this.url);
-        console.log(item); 
+        try{
+            const item = await itemPromise(this.url);
         cb(item);
         await browser.close();
+        }
+        catch (err) {
+            console.log(err);
+        }
+        
 
         // // Wait for the required DOM to be rendered
         // await page.waitForSelector('.page_inner');

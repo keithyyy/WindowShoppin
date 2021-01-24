@@ -58,7 +58,7 @@ module.exports = function(app) {
           console.log('scraped item: ', data);
           data.UserId = req.user.id;
           db.Item.create(data);
-          console.log('created item: ', data);
+          console.table('created item: ', data);
           res.json(data);
         } else {
           res.send('Unable to get item data').status(404).end();
@@ -67,17 +67,6 @@ module.exports = function(app) {
     } else {
       res.status(404).end();
     }
-    
-    // db.User.create({
-    //   email: req.body.email,
-    //   password: req.body.password
-    // })
-    //   .then(function() {
-    //     res.redirect(307, "/api/login");
-    //   })
-    //   .catch(function(err) {
-    //     res.status(401).json(err);
-    //   });
   });
 };
 

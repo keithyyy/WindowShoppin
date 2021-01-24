@@ -24,12 +24,20 @@ module.exports = function(app) {
 
   // Here we've add our isAuthenticated middleware to this route.
   // If a user who is not logged in tries to access this route they will be redirected to the signup page
-  app.get("/members", isAuthenticated, function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/members.html"));
-  });
-
   app.get("/dashboard", isAuthenticated, function(req,res) {
     res.render("index");
   })
+
+  // if a user logs out they get directed to the landing/intro page again.
+  app.get("/logout", function(req,res) {
+    res.sendFile(path.join(__dirname, "../public/intro.html"))
+  })
+
+
+  // a test to see what happens if a signed in user tries to go to "localhost:8081/"
+  app.get("/members", function(req,res) {
+    res.sendFile(path.join(__dirname, "../public/members.html"))
+  })
+  
 
 };

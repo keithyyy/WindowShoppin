@@ -1,0 +1,41 @@
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="container text-center" id="logo">
+        <img class="rounded mx-auto" src="./images/Window.png" class="img-fluid" alt="Window Shoppin' logo">        
+        <h2 id="subtitle">Welcome <span id="member-name"></span></h2>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="container d-flex" id="new-item-container">
+          <div class="col-md-12 panel" id="add-new-item">
+            <tbody>
+              <tr id="form-row">
+                <form id="item-form" style="display: flex" class="form-btn">
+                  <td colspan="12">
+                    <input placeholder="Enter a Item URL" id="item-url" type="text"/>
+                  </td>
+                  <td><button type="submit" class="btn btn-success" id="submit-item">Add Item</button>
+                  </td>
+                </form>
+              </tr>
+            </tbody>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- this is where categories should show up -->
+        <div class="col-md-12 panel" id="all-items">
+          <h4>Saved Items</h4>
+          {{#each Items}}
+          {{> Items/item}}
+          {{/each}}
+        </div>
+      </div>
+      
+      
+      </div>
+    </div>
+  </div>

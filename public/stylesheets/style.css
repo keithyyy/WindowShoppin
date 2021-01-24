@@ -1,4 +1,22 @@
-form.signup,
-form.login {
-  margin-top: 50px;
+body {
+  /* background-image: url("../images/background-image.jpg"); */
+  font-family: "Montserrat Alternates", sans-serif;
+
+}
+
+h1 {
+  font-family: "Sonsie One", cursive;
+  text-align: center;
+  color:darkblue;
+}
+
+h2 {
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+  color:maroon
+}
+
+#logo {
+  margin-top: 60px;
 }

@@ -64,7 +64,7 @@ async function scrapeItem(url, cb) {
             return results;
         });
         
-        // await page.close();
+        await page.close();
         if (!product.description) {
             product.description = product.title;
         }
@@ -84,7 +84,7 @@ async function scrapeItem(url, cb) {
     catch (err) {
         console.log('unable to get', err);
     }
-    // await browser.close();
+    await browser.close();
 }
 
 module.exports = scrapeItem;

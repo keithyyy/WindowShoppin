@@ -51,22 +51,26 @@ module.exports = function(app) {
   });
   // Route for scraping item data from url
   app.post("/api/scrape", (req, res) => {
-    if (req.body.url) {
-      // scraperController(req.body.url, (data) => {
-      scrapeItem(req.body.url, (data) => {
-        // save to db and return
-        if (data) {
-          console.log('scraped item: ', data);
-          data.UserId = req.user.id;
-          db.Item.create(data);
-          console.log('created item: ', data);
-          res.json(data);
-        } else {
-          res.send('Unable to get item data').status(404).end();
-        }
-      });
+    if (req.user) {
+      if (req.body.url) {
+        // scraperController(req.body.url, (data) => {
+        scrapeItem(req.body.url, (data) => {
+          // save to db and return
+          if (data) {
+            console.log('scraped item: ', data);
+            data.UserId = req.user.id;
+            // db.Item.create(data);
+            console.log('created item: ', data);
+            res.json(data);
+          } else {
+            res.send('Unable to get item data').status(404).end();
+          }
+        });
+      } else {
+        res.status(404).end();
+      }
     } else {
-      res.status(404).end();
+      res.status(401).end();
     }
   });
 

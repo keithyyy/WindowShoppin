@@ -4,6 +4,7 @@ let passport = require("../config/passport");
 let scrapeItem = require("../controllers/scraper");
 const item = require("../models/item");
 
+
 module.exports = function(app) {
   // Using the passport.authenticate middleware with our local strategy.
   // If the user has valid login credentials, send them to the members page.
@@ -71,17 +72,14 @@ module.exports = function(app) {
     } else {
       res.status(401).end();
     }
-    
-    // db.User.create({
-    //   email: req.body.email,
-    //   password: req.body.password
-    // })
-    //   .then(function() {
-    //     res.redirect(307, "/api/login");
-    //   })
-    //   .catch(function(err) {
-    //     res.status(401).json(err);
-    //   });
   });
+
+// Route for adding an item URL to the database
+  app.post("/api/scrape", function(req, res) {
+    console.log(req.body);
+    db.Item.create({
+      url: req.body.url
+    }).then((res) => res.json(res));
+  })
 };
 

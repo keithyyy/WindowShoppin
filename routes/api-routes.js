@@ -66,10 +66,12 @@ module.exports = function(app) {
         scrapeItem(req.body.url, (data) => {
           // save to db and return
           if (data) {
-            console.log('scraped item: ', data);
             data.UserId = req.user.id;
-            // db.Item.create(data);
-            console.log('created item: ', data);
+            db.Item.create(data, { logging: false }).then((result) => {
+              console.log('created item: ', data.title);
+              res.status(201)
+            });
+            
             res.json(data);
           } else {
             res.send('Unable to get item data').status(404).end();

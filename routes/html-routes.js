@@ -34,7 +34,6 @@ module.exports = function(app) {
       const hbsObject = {
         items: results
       };
-      console.log(hbsObject)
       res.render("index", hbsObject)
     })
   })

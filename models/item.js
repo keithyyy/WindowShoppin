@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
-    imgURL: DataTypes.STRING
+    imgURL: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'Item',

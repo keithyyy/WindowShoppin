@@ -1,7 +1,10 @@
+
+
 $(document).ready(function() {
     // Getting references to our form and input
     var addItemForm = $("form#add-item-form");
     var urlInput = $("input#url-input");
+    var ItemsSection = $("#all-items")
 
     addItemForm.on("submit", function(event) {
         event.preventDefault();
@@ -17,6 +20,14 @@ $(document).ready(function() {
         urlInput.val("");
     });
     
+
+    // $.get("/api/items")
+    // .then(data => {
+    //     console.log("Success getting all items:", data);
+    // }) 
+        
+    
+
     function addItemUrl(url) {
         $.post("/api/scrape", {
             url: url
@@ -27,7 +38,7 @@ $(document).ready(function() {
 
 
             // We'll need to do something like this when it's added
-            // window.location.reload();
+            window.location.href= '/dashboard';
         })
     }
 })

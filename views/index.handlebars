@@ -39,8 +39,9 @@
       <!-- this is where categories should show up -->
       <div class="col-md-12 panel" id="all-items">
         <h4>Saved Items</h4>
-        {{#each Items}}
-        {{> Items/item}}
+        <li></li>
+        {{#each items}}
+        {{> items/item-block}}
         {{/each}}
       </div>
     </div>

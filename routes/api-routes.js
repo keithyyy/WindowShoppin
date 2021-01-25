@@ -49,6 +49,15 @@ module.exports = function(app) {
       });
     }
   });
+
+  // Route for getting all the items of user and showing it to user
+  app.get("/api/items", (req,res) => {
+    db.Item.findAll({where: { UserId: req.user.id }}).then((results) => {
+      res.json(results);
+    })
+  })
+
+
   // Route for scraping item data from url
   app.post("/api/scrape", (req, res) => {
     if (req.user) {
@@ -75,11 +84,14 @@ module.exports = function(app) {
   });
 
 // Route for adding an item URL to the database
-  app.post("/api/scrape", function(req, res) {
-    console.log(req.body);
-    db.Item.create({
-      url: req.body.url
-    }).then((res) => res.json(res));
-  })
+  // app.post("/api/scrape", function(req, res) {
+  //   console.log(req.body);
+  //   db.Item.create({
+  //     url: req.body.url
+  //   }).then((res) => res.json(res));
+  // })
 };
+
+
+
 

@@ -2,39 +2,54 @@
 <html lang="en">
 
 <head>
-  <title>Window Shoppin'</title>
+  <title>Dashboard</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/lumen/bootstrap.min.css">
   <link href="stylesheets/style.css" rel="stylesheet">
 </head>
 
 <body>
   <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/logout">
-        Logout
-      </a>
-    </div>
-  </div>
-</nav>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <h2>Welcome <span class="member-name"></span></h2>
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/logout">
+          Logout
+        </a>
       </div>
-      <div class="input-group mb-3">
-        <input type="text" id="item-url" class="form-control" placeholder="Item's URL" aria-label="Item's URL" aria-describedby="button-addon2">
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" id="add-item">Add New</button>
+    </div>
+  </nav>
+  
+  
+  <div class="container-fluid">
+    <div class="row">
+      <div class="container text-center" id="logo">
+        <img class="rounded mx-auto" src="./images/Window.png" class="img-fluid" alt="Window Shoppin' logo">
+        <h2 id="subtitle">Welcome <span id="member-name"></span></h2>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="container d-flex" id="new-item-container">
+          <div class="col-md-12 panel" id="add-new-item">
+            <tbody>
+              <tr id="form-row">
+                <form id="add-item-form" style="display: flex">
+                  <td colspan="12">
+                    <input class="new-item form-control" placeholder="Enter an Item URL" type="text" id="url-input"/>
+                  </td>
+                  <td><button type="submit" class="btn btn-success">Add Item</button>
+                  </td>
+                </form>
+              </tr>
+            </tbody>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript" src="js/members.js"></script>
+  <script type="text/javascript" src="js/dashboard.js"></script>
 
 </body>
 

@@ -52,13 +52,8 @@ module.exports = function(app) {
 
   // Route for getting all the items of user and showing it to user
   app.get("/api/items", (req,res) => {
-    db.Item.findAll({}).then((results) => {
+    db.Item.findAll({where: { UserId: req.user.id }}).then((results) => {
       res.json(results);
-      const hbsObject = {
-        item: results,
-      }
-      console.log(hbsObject)
-      res.render("index", hbsObject)
     })
   })
 
@@ -73,7 +68,7 @@ module.exports = function(app) {
           console.log('scraped item: ', data);
           data.UserId = req.user.id;
           db.Item.create(data);
-          console.table('created item: ', data);
+          console.log('created item: ', data);
           res.json(data);
         } else {
           res.send('Unable to get item data').status(404).end();
@@ -85,12 +80,12 @@ module.exports = function(app) {
   });
 
 // Route for adding an item URL to the database
-  app.post("/api/scrape", function(req, res) {
-    console.log(req.body);
-    db.Item.create({
-      url: req.body.url
-    }).then((res) => res.json(res));
-  })
+  // app.post("/api/scrape", function(req, res) {
+  //   console.log(req.body);
+  //   db.Item.create({
+  //     url: req.body.url
+  //   }).then((res) => res.json(res));
+  // })
 };
 
 

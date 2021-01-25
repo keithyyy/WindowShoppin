@@ -21,10 +21,10 @@ $(document).ready(function() {
     });
     
 
-    $.get("/api/items")
-    .then(data => {
-        console.log("Success getting all items:", data);
-    }) 
+    // $.get("/api/items")
+    // .then(data => {
+    //     console.log("Success getting all items:", data);
+    // }) 
         
     
 
@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 
             // We'll need to do something like this when it's added
-            // window.location.reload();
+            window.location.href= '/dashboard';
         })
     }
 })

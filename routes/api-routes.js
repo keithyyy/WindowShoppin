@@ -49,6 +49,20 @@ module.exports = function(app) {
       });
     }
   });
+
+  // Route for getting all the items of user and showing it to user
+  app.get("/api/items", (req,res) => {
+    db.Item.findAll({}).then((results) => {
+      res.json(results);
+      const hbsObject = {
+        item: results,
+      }
+      console.log(hbsObject)
+      res.render("index", hbsObject)
+    })
+  })
+
+
   // Route for scraping item data from url
   app.post("/api/scrape", (req, res) => {
     if (req.body.url) {
@@ -78,4 +92,7 @@ module.exports = function(app) {
     }).then((res) => res.json(res));
   })
 };
+
+
+
 

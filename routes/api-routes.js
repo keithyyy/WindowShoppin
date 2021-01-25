@@ -57,7 +57,7 @@ module.exports = function(app) {
         if (data) {
           console.log('scraped item: ', data);
           data.UserId = req.user.id;
-          db.Item.create(data);
+          // db.Item.create(data);
           console.log('created item: ', data);
           res.json(data);
         } else {

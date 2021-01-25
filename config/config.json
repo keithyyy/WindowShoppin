@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "Zughaiyer6!",
-    "database": "passport_demo",
+    "database": "shoppinDB",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

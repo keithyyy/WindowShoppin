@@ -1,11 +1,11 @@
 <li>
     
     <h3>{{title}}</h3>
-    <img src="{{imgURL}}">
-    <p id="item-title">{{title}}</p>
-    <p id="item-description">{{item-description}}</p>
-    <p id="item-InitialPrice">{{initialPrice}}</p>
-    <p id="item-NewPrice">{{NewPrice}}</p>
+    <img class="img-thumbnail imbThumb" src="{{imgURL}}">
+    <h5 class="itemTitle" id="item-title">{{title}}</h5>
+    <p class="itemDesc" id="item-description">{{item-description}}</p>
+    <p class="initPrice" id="item-InitialPrice">${{initialPrice}}</p>
+    <p class="newPrice" id="item-NewPrice">{{NewPrice}}</p>
 
     <button onclick="{{url}}"></button>
     <button class="btn btn-danger pull-right delete-item" data-id="{{this.id}}">Delete</button>

@@ -12,9 +12,18 @@
         <div class="row">
             <img class="card-img-left col" src="{{imgURL}}" alt="Item image">
             <div class="col">
-                <h5 class="card-title item-title">{{title}}</h5>
-                <p id="item-InitialPrice"><i class="material-icons">attach_money</i>{{initialPrice}}</p>
-                <p id="item-NewPrice">{{NewPrice}}</p>
+                <h5 class="card-title item-title mb-0">{{title}}</h5>
+                <div class="row justify-content-end">
+                    <div class="price-initial">
+                        <p class="mb-0 text-muted">initial price</p>
+                        <p id="item-initial-price mx-2" class="text-primary"><i class="material-icons">attach_money</i>{{initialPrice}}</p>
+                    </div>
+                    <div class="price-new">
+                        <p class="mb-0 text-muted mx-2">new price</p>
+                        <p id="item-new-price" class="text-danger"><i class="material-icons">attach_money</i>{{NewPrice}}00.00</p>
+                    </div>
+                </div>
+
                 <a href="{{url}}" class="btn btn-primary float-right mx-1" target="blank">View</a>
                 <button class="btn btn-outline-danger float-right mx-1" data-id={{id}}>Delete</a>
             </div>

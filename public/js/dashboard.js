@@ -20,13 +20,18 @@ $(document).ready(function() {
         urlInput.val("");
     });
     
-
-    // $.get("/api/items")
-    // .then(data => {
-    //     console.log("Success getting all items:", data);
-    // }) 
-        
     
+    $('.delete').on('click', function(){
+        const itemId = ($(this).attr('data-id'));
+        $.ajax({
+            url: '/api/items/' + itemId,
+            type: 'DELETE',
+            success: function(result) {
+                console.log(result, ' item is deleted');
+                window.location.replace('/dashboard');
+            }
+        });
+    });
 
     function addItemUrl(url) {
         $.post("/api/scrape", {
@@ -41,6 +46,5 @@ $(document).ready(function() {
             window.location.replace('/dashboard');
         })
     }
+    
 })
-
-

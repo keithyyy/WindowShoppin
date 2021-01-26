@@ -55,7 +55,17 @@ module.exports = function(app) {
     db.Item.findAll({where: { UserId: req.user.id }}).then((results) => {
       res.json(results);
     })
-  })
+  });
+
+  // Route for deleting item from DB
+  app.delete('/api/items/:id', (req, res) => {
+    db.Item.destroy({
+      where: {
+        UserId: req.user.id,
+        id: req.params.id
+      },
+    }).then((dbPost) => res.json(dbPost));
+  });
 
 
   // Route for scraping item data from url

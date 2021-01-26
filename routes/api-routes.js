@@ -51,5 +51,5 @@ module.exports = function (app) {
   //get all items
   app.get('/allItems', (req, res) => { db.Item.findAll().then(items => res.send(items)) });
   // post new item
-
+  app.post('/newItem', (req, res) => { db.Item.create({ text: req.body.text }).then(submittedItem => res.send(submittedItem)); });
 };

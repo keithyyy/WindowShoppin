@@ -49,33 +49,51 @@ module.exports = function(app) {
       });
     }
   });
+
+  // Route for getting all the items of user and showing it to user
+  app.get("/api/items", (req,res) => {
+    db.Item.findAll({where: { UserId: req.user.id }}).then((results) => {
+      res.json(results);
+    })
+  })
+
+
   // Route for scraping item data from url
   app.post("/api/scrape", (req, res) => {
-    if (req.body.url) {
-      // scraperController(req.body.url, (data) => {
-      scrapeItem(req.body.url, (data) => {
-        // save to db and return
-        if (data) {
-          console.log('scraped item: ', data);
-          data.UserId = req.user.id;
-          db.Item.create(data);
-          console.table('created item: ', data);
-          res.json(data);
-        } else {
-          res.send('Unable to get item data').status(404).end();
-        }
-      });
+    if (req.user) {
+      if (req.body.url) {
+        // scraperController(req.body.url, (data) => {
+        scrapeItem(req.body.url, (data) => {
+          // save to db and return
+          if (data) {
+            data.UserId = req.user.id;
+            db.Item.create(data, { logging: false }).then((result) => {
+              console.log('created item: ', data.title);
+              res.status(201)
+            });
+            
+            res.json(data);
+          } else {
+            res.send('Unable to get item data').status(404).end();
+          }
+        });
+      } else {
+        res.status(404).end();
+      }
     } else {
-      res.status(404).end();
+      res.status(401).end();
     }
   });
 
 // Route for adding an item URL to the database
-  app.post("/api/scrape", function(req, res) {
-    console.log(req.body);
-    db.Item.create({
-      url: req.body.url
-    }).then((res) => res.json(res));
-  })
+  // app.post("/api/scrape", function(req, res) {
+  //   console.log(req.body);
+  //   db.Item.create({
+  //     url: req.body.url
+  //   }).then((res) => res.json(res));
+  // })
 };
+
+
+
 

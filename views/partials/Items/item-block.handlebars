@@ -1,16 +1,27 @@
-<li>
-    
-    <h3>{{title}}</h3>
+    {{!-- <h3>{{title}}</h3>
     <img src="{{imgURL}}">
-    {{!-- <p id="item-title">{{title}}</p> --}}
     <div id="item-description">{{{description}}}</div>
     <p id="item-InitialPrice">{{initialPrice}}</p>
     <p id="item-NewPrice">{{NewPrice}}</p>
 
     <button class="btn btn-primary" onclick="{{url}}">View</button>
-    <button class="btn btn-danger pull-right delete-item" data-id="{{this.id}}">Delete</button>
+    <button class="btn btn-danger pull-right delete-item" data-id="{{this.id}}">Delete</button> --}}
 
-</li>
-
+<div class="card col-12">
+    <div class="card-body item-card">
+        <div class="row">
+            <img class="card-img-left col" src="{{imgURL}}" alt="Item image">
+            <div class="col">
+                <h5 class="card-title item-title">{{title}}</h5>
+                <p id="item-InitialPrice"><i class="material-icons">attach_money</i>{{initialPrice}}</p>
+                <p id="item-NewPrice">{{NewPrice}}</p>
+                <a href="{{url}}" class="btn btn-primary float-right mx-1" target="blank">View</a>
+                <button class="btn btn-outline-danger float-right mx-1" data-id={{id}}>Delete</a>
+            </div>
+        </div>
+        <hr>
+        <p class="card-text" id="item-description">{{{description}}}</p>
+    </div>
+</div>
 
 

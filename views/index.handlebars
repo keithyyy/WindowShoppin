@@ -1,8 +1,12 @@
-<nav class="navbar navbar-default">
+<nav class="navbar pb-0">
   <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="/images/Window.png" height="60" alt="">
+    </a>
     <div class="navbar-header">
-      <a class="navbar-brand" href="/logout">
+      <a class="navbar-brand btn btn-outline-dark" href="/logout">
         Logout
+        <i class="material-icons fs-2">exit_to_app</i>
       </a>
     </div>
   </div>
@@ -11,41 +15,29 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="container text-center" id="logo">
-      <img class="rounded mx-auto" src="./images/Window.png" class="img-fluid" alt="Window Shoppin' logo">
-      <h2 id="subtitle">Welcome <span id="member-name"></span></h2>
+    <div class="container text-center">
+      <h2 id="subtitle">Welcome! Track your shoppin' favorites! <span id="member-name"></span></h2>
     </div>
   </div>
   <div class="container">
-    <div class="row">
-      <div class="container d-flex" id="new-item-container">
-        <div class="col-md-12 panel" id="add-new-item">
-          <tbody>
-            <tr id="form-row">
-              <form id="add-item-form" style="display: flex">
-                <td colspan="12">
-                  <input class="new-item form-control" placeholder="Enter an Item URL" type="text" id="url-input"/>
-                </td>
-                <td><button type="submit" class="btn btn-success">Add Item</button>
-                </td>
-              </form>
-            </tr>
-          </tbody>
+    <form id="add-item-form" style="display: flex">
+      <div class="input-group mb-3">
+        <input type="text" id="url-input" id="url-input" class="new-item form-control" placeholder="Enter an Item URL">
+        <div class="input-group-append">
+          <button class="btn btn-outline-primary" type="submit">
+            <i class="material-icons fs-2">add_shopping_cart</i>
+            Add Item</button>
         </div>
       </div>
-    </div>
+    </form>
 
-    <div class="row">
       <!-- this is where categories should show up -->
       <div class="col-md-12 panel" id="all-items">
-        <h4>Saved Items</h4>
-        {{#each items}}
-        {{> items/item-block}}
-        {{/each}}
+        <h3 class="text-center text-primary">Your Saved Items</h4>
+          {{#each items}}
+          {{> items/item-block}}
+          {{/each}}
       </div>
-    </div>
-
-
   </div>
 </div>
 </div>

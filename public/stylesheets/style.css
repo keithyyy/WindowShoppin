@@ -1,5 +1,5 @@
 body {
-  /* background-image: url("../images/background-image.jpg"); */
+  background-image: url("../images/background-img.png");
   font-family: "Montserrat Alternates", sans-serif;
 
 }
@@ -11,7 +11,7 @@ h1 {
 }
 
 h2 {
-  font-weight: bold;
+  font-family: "Sonsie One", cursive;
   font-style: italic;
   text-align: center;
   color:maroon
@@ -19,4 +19,19 @@ h2 {
 
 #logo {
   margin-top: 60px;
+}
+
+/* .img-thumbnbail {
+  height: 200px;
+} */
+
+.itemPrice {
+  font-weight: bold;
+  font-size: large
+}
+
+.newPrice {
+  color:darkgreen;
+  font-weight: bold;
+  font-size: larger;
 }

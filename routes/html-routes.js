@@ -1,11 +1,12 @@
 // Requiring path to so we can use relative routes to our HTML files
+const dbConfig = require("../db.config.js");
+const Sequelize = require("sequelize");
+const express = require("express");
 var path = require("path");
 
-var mysql = require("mysql");
-var connection = mysql.createConnection({
-  host: 'localhost', user: 'root', password: 'Zughaiyer6!', database: 'shoppindb'
 
-});
+
+
 // Requiring our custom middleware for checking if a user is logged in
 var isAuthenticated = require("../config/middleware/isAuthenticated");
 
@@ -43,7 +44,7 @@ module.exports = function (app) {
     // If the user already has an account send them to the members page
     // res.sendFile(path.join(__dirname, "../public/cart.html"));
 
-    let sqlStatment = "SELECT * FROM shoppindb.items";
+    let sqlStatment = "SELECT * FROM Items";
     let query = connection.query(sqlStatment, function (err, results) {
       if (err) throw err;
       console.log(results);

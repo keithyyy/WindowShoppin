@@ -48,4 +48,8 @@ module.exports = function (app) {
       });
     }
   });
+  //get all items
+  app.get('/allItems', (req, res) => { db.Item.findAll().then(items => res.send(items)) });
+  // post new item
+
 };

@@ -30,14 +30,15 @@
         </div>
       </div>
     </form>
-
-      <!-- this is where categories should show up -->
-      <div class="col-md-12 panel" id="all-items">
-        <h3 class="text-center text-primary">Your Saved Items</h4>
-          {{#each items}}
-          {{> items/item-block}}
-          {{/each}}
-      </div>
+    <!-- Spinner while item is loading -->
+    <div class="loader invisible" role="status"></div>
+    <!-- this is where categories should show up -->
+    <div class="col-md-12 panel" id="all-items">
+      <h3 class="text-center text-primary">Your Saved Items</h4>
+        {{#each items}}
+        {{> items/item-block}}
+        {{/each}}
+    </div>
   </div>
 </div>
 </div>

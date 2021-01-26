@@ -17,12 +17,16 @@ $(document).ready(function() {
         }
         // If we have a url, run the addItemUrl function
         addItemUrl(itemUrlData.url);
+        // Start spinner
+        $('.loader').removeClass('invisible');
         urlInput.val("");
     });
     
-    
+    // Delete button handler
     $('.delete').on('click', function(){
         const itemId = ($(this).attr('data-id'));
+        // Start spinner
+        $('.loader').removeClass('invisible');
         $.ajax({
             url: '/api/items/' + itemId,
             type: 'DELETE',

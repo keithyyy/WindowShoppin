@@ -56,19 +56,30 @@ async function scrapeItem(url, cb) {
             });
             // Scrape description
             let description = document.querySelectorAll('.product-description-blurb__text, [class*="description"], [class*="Description"], [id*="Description"] p');
+            let amazonDescription = document.querySelector('#feature-bullets');
+            if (amazonDescription) {
+                amazonDescription = amazonDescription.innerHTML;
+            }
             description.forEach((item) => {
-                if (item.innerText && !results.description) {
-                    results.description = item.innerText.replace(/(\r\n\t|\n|\r|\t)/gm, "");
+                if (amazonDescription) {
+                    results.description = amazonDescription;
+                } else {
+                    if (item.innerText && !results.description) {
+                        results.description = item.innerText.replace(/(\r\n\t|\n|\r|\t)/gm, "");
+                    }
                 }
+                
             });
+            if (!results.description) {
+                results.description = results.title;
+            }
             return results;
         });
         
         await page.close();
-        if (!product.description) {
-            product.description = product.title;
-        }
+        
         product.url = url;
+        console.log('scraped:', product);
         resolve(product);
         
       } catch (e) {

@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 
             // We'll need to do something like this when it's added
-            window.location.href= '/dashboard';
+            window.location.replace('/dashboard');
         })
     }
 })

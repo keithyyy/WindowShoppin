@@ -1,7 +1,11 @@
 body {
-  /* background-image: url("../images/background-image.jpg"); */
+  background-image: url("../images/background-image.jpg");
+  background-repeat: repeat;
   font-family: "Montserrat Alternates", sans-serif;
+}
 
+.jumbotron, .bg-trans {
+  background-color: rgba(234, 237, 240, 0.5);
 }
 
 h1 {
@@ -19,4 +23,15 @@ h2 {
 
 #logo {
   margin-top: 60px;
+}
+
+.a-size-base-plus {
+  font-family: "Montserrat Alternates", sans-serif;
+  color: maroon;
+  font-size: 1.5rem;
+}
+
+.card, .signup
+.card, .login {
+  background-color: rgba(234, 237, 240, 0.5);
 }

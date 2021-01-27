@@ -2,7 +2,7 @@ $(document).ready(function() {
     // Getting references to our form and input
     var addItemForm = $("form#add-item-form");
     var urlInput = $("input#url-input");
-    var ItemsSection = $("#all-items")
+    var ItemsSection = $("#all-items");
 
     addItemForm.on("submit", function(event) {
         event.preventDefault();
@@ -35,22 +35,26 @@ $(document).ready(function() {
         });
     });
 
+    const checkItemforUpdate = (itemId, cb) => {
+        $.ajax({
+            url: '/api/scrape/' + itemId,
+            type: 'POST',
+            success: cb()
+        });
+    }
     // Check button handler
     $('.check-update').on('click', function(){
         const itemId = ($(this).attr('data-id'));
         console.log('checking update on Item: ', itemId);
         // Start spinner
         $('.loader').removeClass('invisible');
-        $.ajax({
-            url: '/api/scrape/' + itemId,
-            type: 'POST',
-            success: function(result) {
-                console.log(result, ' item is checked');
-                window.location.replace('/dashboard');
-            }
+        checkItemforUpdate(itemId, function(result){
+            console.log(result, ' item is checked');
+            window.location.replace('/dashboard');
         });
     });
 
+    // Function to make call to scrape API and add item in DB.
     function addItemUrl(url) {
         $.post("/api/scrape", {
             url: url
@@ -62,4 +66,21 @@ $(document).ready(function() {
             window.location.replace('/dashboard');
         })
     }
+
+    // Function to check all items for updates
+    const checkForUpdates = async () => {
+        $.get("/api/items").then(items => {
+            console.log('Checking items for update in background');
+            items.forEach(item => {
+                checkItemforUpdate(item.id, () => {});
+            });
+        }).then(() => {
+            console.log('Checked all items for update');
+            window.location.replace('/dashboard');
+        })
+    };
+    // Check All button handler
+    $('#update-all').on('click', () => {
+        checkForUpdates();
+    })
 });

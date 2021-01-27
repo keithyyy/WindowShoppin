@@ -18,7 +18,7 @@ async function scrapeItem(url, cb) {
     });
 
   console.log(`Navigating to ${url}...`);
-  await await page.goto(url, { waitUntil: 'networkidle2' });
+  await page.goto(url, { waitUntil: 'networkidle2' });
 
   let itemPromise = (url) => new Promise(async(resolve, reject) => {
       try {

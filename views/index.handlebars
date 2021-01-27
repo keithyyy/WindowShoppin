@@ -24,7 +24,7 @@
             <tr id="form-row">
               <form id="add-item-form" style="display: flex">
                 <td colspan="12">
-                  <input class="new-item form-control" placeholder="Enter an Item URL" type="text" id="url-input"/>
+                  <input class="new-item form-control" placeholder="Enter an Item URL" type="text" id="url-input" />
                 </td>
                 <td><button type="submit" class="btn btn-success">Add Item</button>
                 </td>
@@ -38,11 +38,14 @@
     <div class="row">
       <!-- this is where categories should show up -->
       <div class="col-md-12 panel" id="all-items">
-        <h4>Saved Items</h4>
-        <li></li>
-        {{#each items}}
-        {{> items/item-block}}
-        {{/each}}
+        <h3 id="my-cart-title">My Cart</h3>
+        <ul>
+          <li>
+            {{#each items}}
+            {{> items/item-block}}
+            {{/each}}
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -53,4 +56,3 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/members.js" type="text/javascript"></script>
 <script src="/js/dashboard.js" type="text/javascript"></script>
-

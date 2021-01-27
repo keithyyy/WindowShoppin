@@ -21,11 +21,21 @@ h2 {
   margin-top: 60px;
 }
 
-/* .img-thumbnbail {
-  height: 200px;
-} */
+#my-cart-title {
+  font-family: "Sonsie One", cursive;
+  text-align: center;
+  color: green
+}
 
-.itemPrice {
+ul {
+  list-style-type: none;
+}
+
+.imgThumb {
+  height: 200px;
+}
+
+.initPrice {
   font-weight: bold;
   font-size: large
 }

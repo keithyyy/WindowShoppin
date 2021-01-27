@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 
 async function scrapeItem(url, cb) {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: ["--disable-setuid-sandbox"],
     'ignoreHTTPSErrors': true
     });
@@ -38,7 +38,7 @@ async function scrapeItem(url, cb) {
             items.forEach(item => {
                 if (item.innerText) {
                     results.title = item.innerText.trim();
-                    };
+                };
             });
             // Scrape image of product
             let img = document.querySelectorAll('.imgTagWrapper img, [class*="productImage"], .static-product-image');
@@ -49,26 +49,42 @@ async function scrapeItem(url, cb) {
             });
             // Scrape price
             let prices = document.querySelectorAll('[class*="price"], [class*="Price"], [class*="price__total"], .price__total-value price__total--on-sale');
+            let amazonPrice = document.querySelector('#priceblock_ourprice');
             prices.forEach((item) => {
                 if (item.innerText) {
                     results.initialPrice = Number(item.innerText.replace(/[^0-9\.]+/g,""));
                 }
             });
+            if (amazonPrice) {
+                results.initialPrice = Number(amazonPrice.innerText.replace(/[^0-9\.]+/g,""));
+            }
+
             // Scrape description
             let description = document.querySelectorAll('.product-description-blurb__text, [class*="description"], [class*="Description"], [id*="Description"] p');
+            let amazonDescription = document.querySelector('#feature-bullets');
+            if (amazonDescription) {
+                amazonDescription = amazonDescription.innerHTML;
+            }
             description.forEach((item) => {
-                if (item.innerText && !results.description) {
-                    results.description = item.innerText.replace(/(\r\n\t|\n|\r|\t)/gm, "");
+                if (amazonDescription) {
+                    results.description = amazonDescription;
+                } else {
+                    if (item.innerText && !results.description) {
+                        results.description = item.innerText.replace(/(\r\n\t|\n|\r|\t)/gm, "");
+                    }
                 }
+                
             });
+            if (!results.description) {
+                results.description = results.title;
+            }
             return results;
         });
         
         await page.close();
-        if (!product.description) {
-            product.description = product.title;
-        }
+        
         product.url = url;
+        console.log('scraped:', product);
         resolve(product);
         
       } catch (e) {

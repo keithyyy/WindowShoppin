@@ -17,16 +17,25 @@ $(document).ready(function() {
         }
         // If we have a url, run the addItemUrl function
         addItemUrl(itemUrlData.url);
+        // Start spinner
+        $('.loader').removeClass('invisible');
         urlInput.val("");
     });
     
-
-    // $.get("/api/items")
-    // .then(data => {
-    //     console.log("Success getting all items:", data);
-    // }) 
-        
-    
+    // Delete button handler
+    $('.delete').on('click', function(){
+        const itemId = ($(this).attr('data-id'));
+        // Start spinner
+        $('.loader').removeClass('invisible');
+        $.ajax({
+            url: '/api/items/' + itemId,
+            type: 'DELETE',
+            success: function(result) {
+                console.log(result, ' item is deleted');
+                window.location.replace('/dashboard');
+            }
+        });
+    });
 
     function addItemUrl(url) {
         $.post("/api/scrape", {
@@ -38,9 +47,8 @@ $(document).ready(function() {
 
 
             // We'll need to do something like this when it's added
-            window.location.href= '/dashboard';
+            window.location.replace('/dashboard');
         })
     }
+    
 })
-
-

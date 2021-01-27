@@ -1,7 +1,11 @@
 body {
-  /* background-image: url("../images/background-image.jpg"); */
+  background-image: url("../images/background-image.jpg");
+  background-repeat: repeat;
   font-family: "Montserrat Alternates", sans-serif;
+}
 
+.jumbotron, .bg-trans {
+  background-color: rgba(234, 237, 240, 0.5);
 }
 
 h1 {
@@ -19,4 +23,71 @@ h2 {
 
 #logo {
   margin-top: 60px;
+}
+
+.a-size-base-plus {
+  font-family: "Montserrat Alternates", sans-serif;
+  color: maroon;
+  font-size: 1.5rem;
+}
+
+.card, .signup
+.card, .login {
+  background-color: rgba(234, 237, 240, 0.5);
+}
+
+i {
+  vertical-align: middle;
+}
+
+.card-img-left {
+  max-width:200px;
+  max-height:200px;
+  width: auto;
+  height: auto;
+}
+
+.card-columns {
+  display: inline-block;
+}
+
+.a-size-base-plus {
+  font-size: 1rem;
+}
+
+#item-description {
+  font-size: 14px;
+}
+
+.item-title{
+  font-size: 16px;
+}
+
+.item-card > ul {
+  font-size: 14px;
+}
+
+.loader {
+  position: absolute;
+  top: 40vh;
+  left: 45vw;
+  border: 10px solid  rgba(234, 237, 240, 0.5);
+  border-radius: 50%;
+  border-top: 10px solid #ffd000;
+  border-right: 10px solid #ffd000;
+  border-bottom: 10px solid  #ffd000;
+  width: 6rem;
+  height: 6rem;
+  -webkit-animation: spin 0.5s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

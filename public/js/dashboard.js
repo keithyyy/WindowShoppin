@@ -1,5 +1,3 @@
-
-
 $(document).ready(function() {
     // Getting references to our form and input
     var addItemForm = $("form#add-item-form");
@@ -37,6 +35,22 @@ $(document).ready(function() {
         });
     });
 
+    // Check button handler
+    $('.check-update').on('click', function(){
+        const itemId = ($(this).attr('data-id'));
+        console.log('checking update on Item: ', itemId);
+        // Start spinner
+        $('.loader').removeClass('invisible');
+        $.ajax({
+            url: '/api/scrape/' + itemId,
+            type: 'POST',
+            success: function(result) {
+                console.log(result, ' item is checked');
+                window.location.replace('/dashboard');
+            }
+        });
+    });
+
     function addItemUrl(url) {
         $.post("/api/scrape", {
             url: url
@@ -44,11 +58,8 @@ $(document).ready(function() {
         .then(function(data) {    
             // Reload the page so the user can see the new item
             console.log('Added new item!');
-
-
             // We'll need to do something like this when it's added
             window.location.replace('/dashboard');
         })
     }
-    
-})
+});

@@ -81,7 +81,6 @@ module.exports = function(app) {
               console.log('created item: ', data.title);
               res.status(201)
             });
-            
             res.json(data);
           } else {
             res.send('Unable to get item data').status(404).end();
@@ -91,19 +90,45 @@ module.exports = function(app) {
         res.status(404).end();
       }
     } else {
-      res.status(401).end();
+      res.status(401).end(); // Return not authorized if no user credentials
     }
   });
 
-// Route for adding an item URL to the database
-  // app.post("/api/scrape", function(req, res) {
-  //   console.log(req.body);
-  //   db.Item.create({
-  //     url: req.body.url
-  //   }).then((res) => res.json(res));
-  // })
+  // Route for re-scraping item data from url based on id saved in DB to see if price is updated.
+  app.post("/api/scrape/:id", (req, res) => {
+    if (req.user) {
+      db.Item.findOne({
+        where: {
+          id: req.params.id
+        }
+      }).then(item => {
+        // scrape again for item with id
+        console.log('checkng update for item id: ', item.id);
+        scrapeItem(item.url, (data) => {
+          // check if price changed and save to db
+          console.log('compare: ', Number(item.initialPrice), data.initialPrice);
+          if (data.initialPrice !== Number(item.initialPrice)) {
+            item.newPrice = data.initialPrice;
+            item.isUpdated = true;
+            console.log('there is an update!')
+            db.Item.update({ newPrice: item.newPrice, isUpdated: true }, {
+              where: {
+                id: item.id,
+              },
+            }).then((result) => {
+              console.log('updated item: ', result);
+              res.status(200).end()
+            });
+          } else {
+            console.log('no need to update!');
+            res.send('no update').status(200);
+          }
+        });
+      }). catch (err => {
+        console.log('Error, item is not found');
+      });
+    } else {
+      res.status(401).end(); // Return not authorized if no user credentials
+    }
+  });
 };
-
-
-
-

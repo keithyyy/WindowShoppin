@@ -1,19 +1,10 @@
-    {{!-- <h3>{{title}}</h3>
-    <img src="{{imgURL}}">
-    <div id="item-description">{{{description}}}</div>
-    <p id="item-InitialPrice">{{initialPrice}}</p>
-    <p id="item-NewPrice">{{NewPrice}}</p>
-
-    <button class="btn btn-primary" onclick="{{url}}">View</button>
-    <button class="btn btn-danger pull-right delete-item" data-id="{{this.id}}">Delete</button> --}}
-
 <div class="card col-12">
     <div class="card-body item-card">
         <div class="row">
             <img class="card-img-left col" src="{{imgURL}}" alt="Item image">
             <div class="col">
                 <h5 class="card-title item-title mb-0">{{title}}</h5>
-                <small class="date-added text-muted">{{sliceTime createdAt}}</small>
+                {{!-- <small class="date-added text-muted">{{sliceTime createdAt}}</small> --}}
                 <div class="row justify-content-end">
                     <div class="price-initial">
                         <p class="mb-0 text-muted">initial price</p>
@@ -21,17 +12,21 @@
                     </div>
                     <div class="price-new">
                         <p class="mb-0 text-muted mx-2">new price</p>
-                        <p id="item-new-price" class="text-danger"><i class="material-icons">attach_money</i>{{NewPrice}}00.00</p>
+                        {{#if isUpdated}}
+                            <p id="item-new-price" class="text-danger"><i class="material-icons">attach_money</i>{{newPrice}}</p>
+                            {{else}}
+                            <p id="item-new-price" class="text-danger"><i class="material-icons">attach_money</i>--.--</p>
+                        {{/if}}
                     </div>
                 </div>
 
                 <a href="{{url}}" class="btn btn-primary float-right mx-1" target="blank">View</a>
                 <button class="btn btn-outline-danger float-right mx-1 delete" data-id={{id}}>Delete</button>
+                <button class="btn btn-outline-secondary float-right mx-1 check-update" data-id={{id}}>Check</button>
+
             </div>
         </div>
         <hr>
         <p class="card-text" id="item-description">{{{description}}}</p>
     </div>
 </div>
-
-

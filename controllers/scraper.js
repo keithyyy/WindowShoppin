@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 
 async function scrapeItem(url, cb) {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     args: ["--disable-setuid-sandbox"],
     'ignoreHTTPSErrors': true
     });
@@ -73,7 +73,6 @@ async function scrapeItem(url, cb) {
                         results.description = item.innerText.replace(/(\r\n\t|\n|\r|\t)/gm, "");
                     }
                 }
-                
             });
             if (!results.description) {
                 results.description = results.title;
@@ -82,11 +81,8 @@ async function scrapeItem(url, cb) {
         });
         
         await page.close();
-        
         product.url = url;
-        console.log('scraped:', product);
         resolve(product);
-        
       } catch (e) {
           return reject(e)
       }

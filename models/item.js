@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Item.init({
     title: DataTypes.TEXT,
     description: DataTypes.TEXT,
-    url: DataTypes.STRING,
+    url: DataTypes.TEXT,
     initialPrice: DataTypes.DECIMAL(10,2),
     newPrice: DataTypes.DECIMAL(10,2),
     category: DataTypes.STRING,

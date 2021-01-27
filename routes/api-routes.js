@@ -79,7 +79,7 @@ module.exports = function(app) {
             data.UserId = req.user.id;
             db.Item.create(data, { logging: false }).then((result) => {
               console.log('created item: ', data.title);
-              res.status(201)
+              res.status(201).end();
             });
             res.json(data);
           } else {
@@ -107,7 +107,8 @@ module.exports = function(app) {
         scrapeItem(item.url, (data) => {
           // check if price changed and save to db
           console.log('compare: ', Number(item.initialPrice), data.initialPrice);
-          if (data.initialPrice !== Number(item.initialPrice)) {
+          // Check if initial or new saved price is updated
+          if (data.initialPrice !== Number(item.initialPrice) && data.initialPrice !== Number(item.newPrice)) {
             item.newPrice = data.initialPrice;
             item.isUpdated = true;
             console.log('there is an update!')
@@ -120,7 +121,12 @@ module.exports = function(app) {
               res.status(200).end()
             });
           } else {
-            console.log('no need to update!');
+            console.log('no update!');
+            db.Item.update({ isUpdated: false }, {
+              where: {
+                id: item.id,
+              }
+            });
             res.send('no update').status(200);
           }
         });

@@ -1,8 +1,8 @@
 const puppeteer = require('puppeteer');
-
+// Initialize puppeteer
 async function scrapeItem(url, cb) {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: ["--disable-setuid-sandbox"],
     'ignoreHTTPSErrors': true
     });
@@ -50,6 +50,7 @@ async function scrapeItem(url, cb) {
             // Scrape price
             let prices = document.querySelectorAll('[class*="price"], [class*="Price"], [class*="price__total"], .price__total-value price__total--on-sale');
             let amazonPrice = document.querySelector('#priceblock_ourprice');
+            let bestBuyPrice = document.querySelector('.screenReaderOnly_3anTj'); 
             prices.forEach((item) => {
                 if (item.innerText) {
                     results.initialPrice = Number(item.innerText.replace(/[^0-9\.]+/g,""));
@@ -57,6 +58,10 @@ async function scrapeItem(url, cb) {
             });
             if (amazonPrice) {
                 results.initialPrice = Number(amazonPrice.innerText.replace(/[^0-9\.]+/g,""));
+            }
+            if (bestBuyPrice) {
+                results.initialPrice = Number(bestBuyPrice.innerText.replace(/[^0-9\.]+/g,""));
+                results.bestbuy = bestBuyPrice;
             }
 
             // Scrape description
@@ -67,10 +72,10 @@ async function scrapeItem(url, cb) {
             }
             description.forEach((item) => {
                 if (amazonDescription) {
-                    results.description = amazonDescription;
+                    results.description = amazonDescription.replace(/<hr>/gm, "");
                 } else {
                     if (item.innerText && !results.description) {
-                        results.description = item.innerText.replace(/(\r\n\t|\n|\r|\t)/gm, "");
+                        results.description = item.innerText //.replace(/(\r\n\t|\n|\r|\t)/gm, "");
                     }
                 }
             });

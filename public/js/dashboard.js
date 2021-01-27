@@ -37,6 +37,21 @@ $(document).ready(function() {
         });
     });
 
+    // Update button handler 
+    $('.update').on('click', function(){
+        const itemId = ($(this).attr('data-id'));
+        // Start spinner
+        $('.loader').removeClass('invisible');
+        $.ajax({
+            url: '/api/items/' + itemId,
+            type: 'UPDATE',
+            success: function(result) {
+                console.log(result, ' item is updated');
+                window.location.replace('/dashboard');
+            }
+        });
+    });
+
     function addItemUrl(url) {
         $.post("/api/scrape", {
             url: url

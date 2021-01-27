@@ -25,7 +25,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
-    imgURL: DataTypes.TEXT
+    imgURL: DataTypes.TEXT,
+    // adding "notes" field to database
+    // notes: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'Item',

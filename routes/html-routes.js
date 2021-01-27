@@ -29,6 +29,7 @@ module.exports = function(app) {
     db.Item.findAll({
       where: { UserId: req.user.id },
       raw: true,
+      order: [['id', 'DESC']],
     }).then((results) => {
       // res.json(results);
       const hbsObject = {

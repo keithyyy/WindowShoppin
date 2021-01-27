@@ -7,10 +7,15 @@ var passport = require("./config/passport");
 const bodyparser = require("body-parser");
 const path = require("path");
 const exphbs = require("express-handlebars");
+// Handlebars helper to extract date-time
+var hbs = exphbs.create({});
+hbs.handlebars.registerHelper('sliceTime', function(time) {
+  return time.toString().slice(0,21);
+});
 
 // Setting up port and requiring models for syncing
 var PORT = process.env.PORT || 8081;
-var db = require("./models");
+var db = require("./models"); 
 
 // Creating express app and configuring middleware needed for authentication
 var app = express();

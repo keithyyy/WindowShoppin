@@ -1,4 +1,4 @@
-<li>
+<li class="item" >
     
     <h3>{{title}}</h3>
     <img src="{{imgURL}}">
@@ -7,7 +7,7 @@
     <p id="item-InitialPrice">{{initialPrice}}</p>
     <p id="item-NewPrice">{{NewPrice}}</p>
 
-    <button onclick="{{url}}"></button>
+    <button class="btn btn-success pull-left"  id="view-item" data-item-id="{{this.id}}">View Details</button>
     <button class="btn btn-danger pull-right delete-item" data-id="{{this.id}}">Delete</button>
 
 </li>

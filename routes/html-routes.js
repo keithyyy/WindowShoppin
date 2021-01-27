@@ -38,6 +38,7 @@ module.exports = function(app) {
     })
   })
 
+  app.get("")
 
   // a test to see what happens if a signed in user tries to go to "localhost:8081/"
   app.get("/members", function(req,res) {

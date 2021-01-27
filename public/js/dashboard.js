@@ -4,7 +4,9 @@ $(document).ready(function() {
     // Getting references to our form and input
     var addItemForm = $("form#add-item-form");
     var urlInput = $("input#url-input");
-    var ItemsSection = $("#all-items")
+    var ItemsSection = $("#all-items");
+    const deleteButtons = document.querySelectorAll(".delete-item")
+    
 
     addItemForm.on("submit", function(event) {
         event.preventDefault();
@@ -19,13 +21,37 @@ $(document).ready(function() {
         addItemUrl(itemUrlData.url);
         urlInput.val("");
     });
-    
 
-    // $.get("/api/items")
-    // .then(data => {
-    //     console.log("Success getting all items:", data);
-    // }) 
-        
+    if (deleteButtons) {
+        deleteButtons.forEach((button) => {
+            button.addEventListener('click', (e) => {
+                const id = e.target.getAttribute("data-id");
+                console.log(id)
+            })
+        })
+    }
+
+    // when a user selects an item
+    const savedItem = document.querySelectorAll("view-item")
+    
+    if (savedItem) {
+        savedItem.forEach((item) => {
+            item.addEventListener('click', (e) => {
+                const id = e.target.getAttribute("data-item-id");
+                fetch("/api/items/" + id, 
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }).then(
+                    
+                )
+            })
+        })
+    }
+
+
     
 
     function addItemUrl(url) {
@@ -41,6 +67,9 @@ $(document).ready(function() {
             window.location.href= '/dashboard';
         })
     }
+
+   
+    
 })
 
 

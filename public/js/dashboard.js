@@ -63,7 +63,12 @@ $(document).ready(function() {
         //     }
         // })
     })
-    
+
+    // Go back to full dashboard handler
+    $('#back-to-dash').on('click', function() {
+        window.location.replace('/dashboard');
+    })
+
     // Delete button handler
     $('.delete').on('click', function(){
         const itemId = ($(this).attr('data-id'));

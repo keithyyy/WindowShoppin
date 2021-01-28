@@ -3,6 +3,7 @@ let db = require("../models");
 let passport = require("../config/passport");
 let scrapeItem = require("../controllers/scraper");
 const item = require("../models/item");
+const { response } = require("express");
 
 
 module.exports = function(app) {
@@ -56,6 +57,23 @@ module.exports = function(app) {
       res.json(results);
     })
   });
+
+  // Route for finding one single item
+  app.get("/api/items/:id", (req,res) => {
+    db.Item.findOne({
+      where: {
+        UserId: req.user.id,
+        id: req.params.id
+      }
+    }).then((results) => {
+      res.json(results);
+      const hbsItemObject = {
+        items: results
+      }
+      res.render("viewitem", hbsItemObject)
+      // console.log(results)
+    })
+  })
 
   // Route for deleting item from DB
   app.delete('/api/items/:id', (req, res) => {

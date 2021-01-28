@@ -19,6 +19,30 @@ $(document).ready(function() {
         $('.loader').removeClass('invisible');
         urlInput.val("");
     });
+
+
+    // // function to render the item details after getting data from our API
+    // const renderItemPage = (data) => {
+    //   console.log(data)
+    //   window.location.replace('/view/'+ data.id)
+    // }
+
+
+
+    // View item handler
+    $('.view-item').on('click', function() {
+        const itemId = ($(this).attr('data-item-id'))
+        console.log(itemId);
+        window.location.replace('/item/'+ itemId)
+        // $.ajax({
+        //     url: '/item/' + itemId,
+        //     type: 'GET',
+        //     success: function(results) {
+        //         // console.log(results)
+        //         // renderItemPage(results)
+        //     }
+        // })
+    })
     
     // Delete button handler
     $('.delete').on('click', function(){

@@ -30,7 +30,7 @@ $(document).ready(function() {
 
 
     // Select item
-    $('.item-card').on('click', function() {
+    $('.view-item').on('click', function() {
         const itemId = ($(this).attr('data-item-id'))
         console.log(itemId)
         $.ajax({

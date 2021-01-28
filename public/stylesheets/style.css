@@ -4,6 +4,10 @@ body {
   font-family: "Montserrat Alternates", sans-serif;
 }
 
+.fade {
+  opacity: 1;
+}
+
 .jumbotron, .bg-trans {
   background-color: rgba(234, 237, 240, 0.5);
 }
@@ -25,16 +29,22 @@ h3 {
   text-align: center;
   color:maroon
 }
+
 .welcome {
-  
+  font-style: italic;
+  font-size: 24px;
 }
 
 #logo {
   margin-top: 60px;
 }
 
+.logo-small {
+  transition: transform .2s ease-in;
+}
+
 .logo-small:hover {
-  filter: drop-shadow(2px 2px 2px rgb(126, 123, 123));
+  transform: scale(1.2);
 }
 
 .a-size-base-plus {

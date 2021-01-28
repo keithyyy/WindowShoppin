@@ -35,6 +35,7 @@ $(document).ready(function() {
       return;
     }
 
+    $('.login').addClass('animate__animated, animate__zoomOut');
     // If we have an email and password we run the loginUser function and clear the form
     loginUser(userData.email, userData.password);
     emailInput.val("");
@@ -55,4 +56,17 @@ $(document).ready(function() {
         console.log(err);
       });
   }
+  // Add animations and redirect on buttons click
+  $('#go-shoppin').on('click', () => {
+    $('.intro').addClass('animate__animated, animate__zoomOut');
+    window.location.href="/login.html";
+  });
+  $('#howitworks').on('click', () => {
+    $('.intro').addClass('animate__animated, animate__zoomOut');
+    window.location.href="/howitworks.html";
+  });
+  $('#howitworks').on('click', () => {
+    $('.intro').addClass('animate__animated, animate__zoomOut');
+    window.location.href="/howitworks.html";
+  });
 });

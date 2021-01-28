@@ -26,6 +26,9 @@ module.exports = {
       category: {
         type: Sequelize.STRING
       },
+      note: {
+        type: Sequelize.STRING
+      },
       retailer: {
         type: Sequelize.STRING
       },

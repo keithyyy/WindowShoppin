@@ -18,7 +18,7 @@ module.exports = function(app) {
   app.get("/login", function(req, res) {
     // If the user already has an account send them to the members page
     if (req.user) {
-      res.redirect("/members");
+      res.redirect("/dashboard");
     }
     res.sendFile(path.join(__dirname, "../public/login.html"));
   });
@@ -39,6 +39,11 @@ module.exports = function(app) {
     })
   })
 
+  // // a test to see what happens if a signed in user tries to go to "localhost:8081/"
+  // app.get("/members", function(req,res) {
+  //   res.sendFile(path.join(__dirname, "../public/members.html"))
+  // })
+
   app.get("/item/:id", function(req,res) {
     db.Item.findOne({
       where: {
@@ -57,5 +62,4 @@ module.exports = function(app) {
     res.sendFile(path.join(__dirname, "../public/members.html"))
   })
   
-
 };

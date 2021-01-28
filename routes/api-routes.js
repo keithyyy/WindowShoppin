@@ -51,11 +51,13 @@ module.exports = function(app) {
     }
   });
 
-  // Route for getting all the items of user and showing it to user
+  // API Route for getting all the items of user and send back as JSON 
   app.get("/api/items", (req,res) => {
     db.Item.findAll({where: { UserId: req.user.id }}).then((results) => {
       res.json(results);
-    })
+    }).catch(function(err) {
+      res.status(401).json(err);
+    });
   });
 
   // Route for finding one single item
@@ -82,7 +84,10 @@ module.exports = function(app) {
         UserId: req.user.id,
         id: req.params.id
       },
-    }).then((dbPost) => res.json(dbPost));
+    }).then((dbPost) => res.json(dbPost))
+    .catch(function(err) {
+      res.status(401).json(err);
+    });
   });
 
 

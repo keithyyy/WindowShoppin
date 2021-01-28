@@ -33,7 +33,7 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       imgURL: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

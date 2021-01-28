@@ -1,6 +1,9 @@
 // Requiring our models and passport as we've configured it
-var db = require("../models");
-var passport = require("../config/passport");
+let db = require("../models");
+let passport = require("../config/passport");
+let scrapeItem = require("../controllers/scraper");
+const item = require("../models/item");
+
 
 module.exports = function(app) {
   // Using the passport.authenticate middleware with our local strategy.
@@ -44,6 +47,94 @@ module.exports = function(app) {
         email: req.user.email,
         id: req.user.id
       });
+    }
+  });
+
+  // Route for getting all the items of user and showing it to user
+  app.get("/api/items", (req,res) => {
+    db.Item.findAll({where: { UserId: req.user.id }}).then((results) => {
+      res.json(results);
+    })
+  });
+
+  // Route for deleting item from DB
+  app.delete('/api/items/:id', (req, res) => {
+    db.Item.destroy({
+      where: {
+        UserId: req.user.id,
+        id: req.params.id
+      },
+    }).then((dbPost) => res.json(dbPost));
+  });
+
+
+  // Route for scraping item data from url
+  app.post("/api/scrape", (req, res) => {
+    if (req.user) {
+      if (req.body.url) {
+        // scraperController(req.body.url, (data) => {
+        scrapeItem(req.body.url, (data) => {
+          // save to db and return
+          if (data) {
+            data.UserId = req.user.id;
+            db.Item.create(data, { logging: false }).then((result) => {
+              console.log('created item: ', data.title);
+              res.status(201).end();
+            });
+            res.json(data);
+          } else {
+            res.send('Unable to get item data').status(404).end();
+          }
+        });
+      } else {
+        res.status(404).end();
+      }
+    } else {
+      res.status(401).end(); // Return not authorized if no user credentials
+    }
+  });
+
+  // Route for re-scraping item data from url based on id saved in DB to see if price is updated.
+  app.post("/api/scrape/:id", (req, res) => {
+    if (req.user) {
+      db.Item.findOne({
+        where: {
+          id: req.params.id
+        }
+      }).then(item => {
+        // scrape again for item with id
+        console.log('checkng update for item id: ', item.id);
+        scrapeItem(item.url, (data) => {
+          // check if price changed and save to db
+          console.log('compare: ', Number(item.initialPrice), data.initialPrice);
+          // Check if initial or new saved price is updated
+          if (data.initialPrice !== Number(item.initialPrice) && data.initialPrice !== Number(item.newPrice)) {
+            item.newPrice = data.initialPrice;
+            item.isUpdated = true;
+            console.log('there is an update!')
+            db.Item.update({ newPrice: item.newPrice, isUpdated: true }, {
+              where: {
+                id: item.id,
+              },
+            }).then((result) => {
+              console.log('updated item: ', result);
+              res.send('updated item!').status(200).end()
+            });
+          } else {
+            console.log('no update!');
+            db.Item.update({ isUpdated: false }, {
+              where: {
+                id: item.id,
+              }
+            });
+            res.send('no update').status(200);
+          }
+        });
+      }). catch (err => {
+        console.log('Error, item is not found');
+      });
+    } else {
+      res.status(401).end(); // Return not authorized if no user credentials
     }
   });
 };

@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 async function scrapeItem(url, cb) {
   const browser = await puppeteer.launch({
     headless: true,
-    args: ["--disable-setuid-sandbox"],
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
     'ignoreHTTPSErrors': true
     });
     const page = await browser.newPage();

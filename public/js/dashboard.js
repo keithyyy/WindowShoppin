@@ -35,23 +35,21 @@ $(document).ready(function() {
         });
     });
 
-    const checkItemforUpdate = (itemId, cb) => {
-        $.ajax({
+    const checkItemforUpdate = async (itemId, cb) => {
+        await $.ajax({
             url: '/api/scrape/' + itemId,
             type: 'POST',
             success: cb()
         });
     }
     // Check button handler
-    $('.check-update').on('click', function(){
+    $('.check-update').on('click', async function(){
         const itemId = ($(this).attr('data-id'));
         console.log('checking update on Item: ', itemId);
         // Start spinner
         $('.loader').removeClass('invisible');
-        checkItemforUpdate(itemId, function(result){
-            console.log(result, ' item is checked');
-            window.location.replace('/dashboard');
-        });
+        await checkItemforUpdate(itemId, function(){});
+        window.location.replace('/dashboard');
     });
 
     // Function to make call to scrape API and add item in DB.

@@ -1,16 +1,26 @@
 {
   "name": "window-shoppin",
   "version": "1.0.0",
-  "description": "",
+  "description": "Window Shoppin app to track your favorite items to shop",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "watch": "nodemon server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "node",
+    "express",
+    "express-handlebars",
+    "puppeteer",
+    "passport",
+    "sequelize",
+    "travis",
+    "heroku",
+    "window-shopping"
+  ],
+  "author": "Eldar, Lina & Michael",
+  "license": "MIT",
   "dependencies": {
     "bcryptjs": "2.4.3",
     "express": "^4.17.0",
@@ -20,6 +30,14 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "puppeteer": "^5.5.0",
-    "sequelize": "^5.8.6"
+    "sequelize": "^5.8.6",
+    "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
+    "mocha": "^8.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
   }
 }

@@ -38,8 +38,28 @@ module.exports = function(app) {
       res.render("index", hbsObject)
     })
   })
+
   // // a test to see what happens if a signed in user tries to go to "localhost:8081/"
   // app.get("/members", function(req,res) {
   //   res.sendFile(path.join(__dirname, "../public/members.html"))
   // })
+
+  app.get("/item/:id", function(req,res) {
+    db.Item.findOne({
+      where: {
+        UserID: req.user.id,
+        id: req.params.id
+      },
+      raw: true
+    }).then((result) => {
+      // res.json(result);
+      res.render("viewitem", result)
+    })
+  })
+
+  // a test to see what happens if a signed in user tries to go to "localhost:8081/"
+  app.get("/members", function(req,res) {
+    res.sendFile(path.join(__dirname, "../public/members.html"))
+  })
+  
 };

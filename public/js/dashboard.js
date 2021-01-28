@@ -1,24 +1,68 @@
 $(document).ready(function() {
+    // Activeate function to fadein cards as they scrolled down
+    $(window).on("load",function() {
+        $(window).scroll(function() {
+          var windowBottom = $(this).scrollTop() + $(this).innerHeight();
+          $(".fade").each(function() {
+            /* Check the location of each desired element */
+            var objectBottom = $(this).offset().top + $(this).outerHeight();
+            
+            /* If the element is completely within bounds of the window, fade it in */
+            if (objectBottom < windowBottom) { //object comes into view (scrolling down)
+              if ($(this).css("opacity")==0) {$(this).fadeTo(200,1);}
+            } 
+          });
+        }).scroll(); //invoke scroll-handler on page-load
+      });
+
+    // This file just does a GET request to figure out which user is logged in
+    // and updates the HTML on the page
+    $.get("/api/user_data").then(function(data) {
+        $(".member-name").text(data.email);
+    });
     // Getting references to our form and input
     var addItemForm = $("form#add-item-form");
     var urlInput = $("input#url-input");
-    var ItemsSection = $("#all-items");
-
+    // Add Item handler
     addItemForm.on("submit", function(event) {
         event.preventDefault();
         var itemUrlData = {
           url: urlInput.val().trim()
         };
-    
         if (!itemUrlData.url) {
           return;
         }
+
         // If we have a url, run the addItemUrl function
         addItemUrl(itemUrlData.url);
         // Start spinner
         $('.loader').removeClass('invisible');
         urlInput.val("");
     });
+
+
+    // // function to render the item details after getting data from our API
+    // const renderItemPage = (data) => {
+    //   console.log(data)
+    //   window.location.replace('/view/'+ data.id)
+    // }
+
+
+
+    // View item handler
+    $('.view-item').on('click', function() {
+        const itemId = ($(this).attr('data-item-id'))
+        console.log(itemId);
+        window.location.replace('/item/'+ itemId)
+        // $.ajax({
+        //     url: '/item/' + itemId,
+        //     type: 'GET',
+        //     success: function(results) {
+        //         // console.log(results)
+        //         // renderItemPage(results)
+        //     }
+        // })
+    })
     
     // Delete button handler
     $('.delete').on('click', function(){
@@ -35,6 +79,7 @@ $(document).ready(function() {
         });
     });
 
+    // Helper function to check/update single item
     const checkItemforUpdate = async (itemId, cb) => {
         await $.ajax({
             url: '/api/scrape/' + itemId,
@@ -42,6 +87,7 @@ $(document).ready(function() {
             success: cb()
         });
     }
+
     // Check button handler
     $('.check-update').on('click', async function(){
         const itemId = ($(this).attr('data-id'));
@@ -77,8 +123,10 @@ $(document).ready(function() {
             window.location.replace('/dashboard');
         })
     };
+
     // Check All button handler
-    $('#update-all').on('click', () => {
-        checkForUpdates();
+    $('#update-all').on('click', async function() {
+        $('.spinner-small').removeClass('invisible');
+        await checkForUpdates();
     })
 });

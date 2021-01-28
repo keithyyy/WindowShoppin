@@ -3,6 +3,7 @@ let db = require("../models");
 let passport = require("../config/passport");
 let scrapeItem = require("../controllers/scraper");
 const item = require("../models/item");
+const { response } = require("express");
 
 
 module.exports = function(app) {
@@ -50,12 +51,31 @@ module.exports = function(app) {
     }
   });
 
-  // Route for getting all the items of user and showing it to user
+  // API Route for getting all the items of user and send back as JSON 
   app.get("/api/items", (req,res) => {
     db.Item.findAll({where: { UserId: req.user.id }}).then((results) => {
       res.json(results);
-    })
+    }).catch(function(err) {
+      res.status(401).json(err);
+    });
   });
+
+  // Route for finding one single item
+  app.get("/api/items/:id", (req,res) => {
+    db.Item.findOne({
+      where: {
+        UserId: req.user.id,
+        id: req.params.id
+      }
+    }).then((results) => {
+      res.json(results);
+      const hbsItemObject = {
+        items: results
+      }
+      res.render("viewitem", hbsItemObject)
+      // console.log(results)
+    })
+  })
 
   // Route for deleting item from DB
   app.delete('/api/items/:id', (req, res) => {
@@ -64,7 +84,10 @@ module.exports = function(app) {
         UserId: req.user.id,
         id: req.params.id
       },
-    }).then((dbPost) => res.json(dbPost));
+    }).then((dbPost) => res.json(dbPost))
+    .catch(function(err) {
+      res.status(401).json(err);
+    });
   });
 
 

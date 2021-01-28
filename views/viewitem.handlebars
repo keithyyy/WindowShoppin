@@ -1,0 +1,24 @@
+<nav class="navbar pb-0">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="/images/Window.png" height="60" alt="Logo" class="logo">
+    </a>
+    <div class="navbar-header">
+      <a class="navbar-brand btn btn-outline-dark" href="/logout">
+        Logout
+        <i class="material-icons fs-2">exit_to_app</i>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+<div class="row justify-content-end mb-2">
+        <div class="col">
+          <h3 class="text-center text-primary">Edit your item</h4>
+        </div>
+        <button id="update-all" class="btn btn-outline-warning mr-3 text-dark">Check All</button>
+      </div>
+        {{> items/singleitem-block this}}
+    </div>
+</div>

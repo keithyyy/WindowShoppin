@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+// Scraper function to get item info from website
 // Initialize puppeteer
 async function scrapeItem(url, cb) {
   const browser = await puppeteer.launch({
@@ -6,6 +7,7 @@ async function scrapeItem(url, cb) {
     args: ['--no-sandbox', '--disable-setuid-sandbox'], // Updated args to run on heroku
     'ignoreHTTPSErrors': true
     });
+    // create instance of new browser page
     const page = await browser.newPage();
     // prevent loading other content apart from html
     await page.setRequestInterception(true);
@@ -18,19 +20,9 @@ async function scrapeItem(url, cb) {
     });
 
   console.log(`Navigating to ${url}...`);
-  await page.goto(url, { waitUntil: 'networkidle2' });
-
+  await page.goto(url, { waitUntil: 'networkidle2' }); // wait till html is loaded
+    // function - promise to scrape and return item object
   let itemPromise = (url) => new Promise(async(resolve, reject) => {
-      try {
-        // let arrOfData = [];
-        // let dataObj = {};
-        // await page.waitForSelector('#productTitle');
-        // dataObj['url'] = link;
-        // dataObj['title'] = await page.$$eval('[class*="product-title"], [class*="productName"], [class*="product-name"], [class*="productTitle"]', text => text.textContent.replace(/(\r\n\t|\n|\r|\t)/gm, ""));
-        // dataObj['initialPrice'] = await page.$eval('#priceblock_ourprice', text => Number(text.textContent.replace(/[^0-9\.]+/g,"")));
-        // dataObj['description'] = await page.$eval('#productDescription', text => text.textContent.replace(/(\r\n\t|\n|\r|\t)/gm, ""));
-        // // dataObj['imageUrl'] = await newPage.$eval('#ivLargeImage img', img => img.src);
-
         let product = await page.evaluate(async () => {
             let results = {};
             // Scrape title|name of product
@@ -88,10 +80,6 @@ async function scrapeItem(url, cb) {
         await page.close();
         product.url = url;
         resolve(product);
-      } catch (e) {
-          return reject(e)
-      }
-        
     });
 
     try{

@@ -65,7 +65,7 @@ $(document).ready(function() {
     })
 
     // Go back to full dashboard handler
-    $('#back-to-dash').on('click', function() {
+    $('.back-to-dash').on('click', function() {
         window.location.replace('/dashboard');
     })
 

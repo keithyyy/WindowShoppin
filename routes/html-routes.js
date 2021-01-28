@@ -29,6 +29,7 @@ module.exports = function(app) {
     db.Item.findAll({
       where: { UserId: req.user.id },
       raw: true,
+      order: [['id', 'DESC']],
     }).then((results) => {
       // res.json(results);
       const hbsObject = {
@@ -38,7 +39,20 @@ module.exports = function(app) {
     })
   })
 
-  app.get("")
+  app.get("/view/:id", function(req,res) {
+    db.Item.findOne({
+      where: {
+        UserID: req.user.id,
+        id: req.params.id
+      }
+    }).then((result) => {
+      // res.json(result);
+      const hbsItemObject = {
+        items: result
+      }
+      res.render("viewitem", hbsItemObject)
+    })
+  })
 
   // a test to see what happens if a signed in user tries to go to "localhost:8081/"
   app.get("/members", function(req,res) {

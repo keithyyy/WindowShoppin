@@ -15,14 +15,10 @@
 <div class="container">
 <div class="row justify-content-end mb-2">
         <div class="col">
-          <h3 class="text-center text-primary">Your Saved Items</h4>
+          <h3 class="text-center text-primary">Edit your item</h4>
         </div>
         <button id="update-all" class="btn btn-outline-warning mr-3 text-dark">Check All</button>
       </div>
-      
-        {{!-- {{#each items}} --}}
-        {{> items/singleitem-block}}
-       
-        {{!-- {{/each}} --}}
+        {{> items/singleitem-block this}}
     </div>
 </div>

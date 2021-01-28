@@ -1,8 +1,38 @@
 <div class="card col-12">
-    <div class="card-body item-card" data-item-id="{{this.id}}">
-        
+    <div class="card-body item-card">
+        {{!-- I used same Item card html here, just change it and add input fields --}}
         <div class="row">
-          
-        <h1 class="card-text" id="item-description">{{this.description}}</h1>
+            <img class="card-img-left col" src="{{imgURL}}" alt="Item image">
+            {{#if isUpdated}}
+            <i class="material-icons text-danger updated">new_releases</i>
+            <audio autoplay>
+                <source src="/audio/ding.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            {{else}}
+            <i class="material-icons text-danger invisible">new_releases</i>
+            {{/if}}
+            <div class="col">
+                <h5 class="card-title item-title mb-0">{{title}}</h5>
+                <small class="date-added text-muted">{{sliceTime createdAt}}</small>
+                <div class="row justify-content-end">
+                    <div class="price-initial">
+                        <p class="mb-0 text-muted">initial price</p>
+                        <p id="item-initial-price mx-2" class="text-primary"><i class="material-icons">attach_money</i>{{initialPrice}}</p>
+                    </div>
+                    <div class="price-new">
+                        <p class="mb-0 text-muted mx-2">new price</p>
+                        <p id="item-new-price" class="text-danger"><i class="material-icons">attach_money</i>{{newPrice}}</p>
+                    </div>
+                </div>
+
+                <a class="btn btn-primary float-right mx-1 view-item" target="blank" data-item-id="{{id}}">View</a>
+                <button class="btn btn-outline-danger float-right mx-1 delete" data-id={{id}}>Delete</button>
+                <button class="btn btn-outline-secondary float-right mx-1 check-update" data-id={{id}}>Check</button>
+
+            </div>
+        </div>
+        <hr>
+        <p class="card-text" id="item-description">{{{description}}}</p>
     </div>
 </div>

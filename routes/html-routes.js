@@ -39,18 +39,16 @@ module.exports = function(app) {
     })
   })
 
-  app.get("/view/:id", function(req,res) {
+  app.get("/item/:id", function(req,res) {
     db.Item.findOne({
       where: {
         UserID: req.user.id,
         id: req.params.id
-      }
+      },
+      raw: true
     }).then((result) => {
       // res.json(result);
-      const hbsItemObject = {
-        items: result
-      }
-      res.render("viewitem", hbsItemObject)
+      res.render("viewitem", result)
     })
   })
 

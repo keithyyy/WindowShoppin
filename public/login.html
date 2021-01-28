@@ -13,7 +13,7 @@
 <body>
   <nav class="navbar">
     <a class="navbar-brand" href="/">
-      <img src="/images/Window.png" height="60" alt="">
+      <img src="/images/Window.png" height="60" alt="" class="logo-small">
     </a>
   </nav>
   <div class="container">
@@ -22,14 +22,20 @@
         <div class="card login">
           <div class="card-body">
             <h2>Show Me My Goods!</h2>
-            <form class="login">
+            <form class="login needs-validation" novalidate>
               <div class="form-group">
-                <label class="text-primary" for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="email-input" placeholder="Email">
+                <label class="text-primary" for="email-input">Email address</label>
+                <input type="email" class="form-control" id="email-input" placeholder="Email" required>
+                <div class="invalid-feedback">
+                  Please enter valid email
+                </div>
               </div>
               <div class="form-group">
-                <label class="text-primary" for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="password-input" placeholder="Password">
+                <label class="text-primary" for="password-input">Password</label>
+                <input type="password" class="form-control" id="password-input" placeholder="Password" required>
+                <div class="invalid-feedback">
+                  Please enter password
+                </div>
               </div>
               <div class="text-center">
                 <button type="submit" class="btn btn-outline-dark">Login</button>

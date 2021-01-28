@@ -68,9 +68,10 @@ i {
 }
 
 .loader {
-  position: absolute;
-  top: 40vh;
-  left: 45vw;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border: 10px solid  rgba(234, 237, 240, 0.5);
   border-radius: 50%;
   border-top: 10px solid #ffd000;

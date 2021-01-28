@@ -136,7 +136,7 @@ module.exports = function(app) {
               },
             }).then((result) => {
               console.log('updated item: ', result);
-              res.status(200).end()
+              res.send('updated item!').status(200).end()
             });
           } else {
             console.log('no update!');

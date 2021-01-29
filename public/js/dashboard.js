@@ -140,4 +140,7 @@ $(document).ready(function() {
         $('.spinner-small').removeClass('invisible');
         await checkForUpdates();
     })
+
+    
+    
 });

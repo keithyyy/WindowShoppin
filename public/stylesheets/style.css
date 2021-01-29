@@ -35,6 +35,44 @@ h3 {
   font-size: 24px;
 }
 
+.window-text {
+  font-family: "Sonsie One", cursive;
+  font-weight: bold;
+  color: rgb(1, 86, 223)
+}
+
+.shoppin-text {
+  font-family: "Sonsie One", cursive;
+  font-weight: bold;
+  color: rgb(246, 217, 48)
+}
+
+.way-text {
+  font-family: "Sonsie One", cursive;
+  font-weight: bold;
+  color: rgb(246, 154, 48)
+}
+
+.blue-text {
+  font-family: "Sonsie One", cursive;
+  font-weight: bold;
+  color: rgb(35, 193, 255)
+}
+
+img.intro {
+  max-width:220px;
+  max-height:220px;
+  width: auto;
+  height: auto;
+}
+
+img.fav {
+  max-width:30px;
+  max-height:30px;
+  width: auto;
+  height: auto;
+
+}
 #logo {
   margin-top: 60px;
 }

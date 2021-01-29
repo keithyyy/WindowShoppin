@@ -26,14 +26,14 @@ async function scrapeItem(url, cb) {
         let product = await page.evaluate(async () => {
             let results = {};
             // Scrape title|name of product
-            let items = document.querySelectorAll('[class*="product-title"], [class*="productName"], [class*="product-name"], [class*="productTitle"], .product-detail__title h1');
+            let items = document.querySelectorAll('[class*="product-title"], [class*="productName"], [class*="product-name"], [class*="productTitle"], .product-detail__title h1, [class*="mainColumn-"] div [class*="title-"] ');
             items.forEach(item => {
                 if (item.innerText) {
                     results.title = item.innerText.trim();
                 };
             });
             // Scrape image of product
-            let img = document.querySelectorAll('.imgTagWrapper img, [class*="productImage"], .static-product-image');
+            let img = document.querySelectorAll('.imgTagWrapper img, [class*="productImage"], .static-product-image, [class*="heroImageForPrint"]');
             img.forEach(image => {
                 if (image.src) {
                     results.imgURL = image.src;

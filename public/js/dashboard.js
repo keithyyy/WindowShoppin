@@ -1,14 +1,28 @@
 $(document).ready(function() {
-    // Activeate function to fadein cards as they scrolled down
+    let dateToday = moment().format('ll'); // get todays date using moment.js
+    // Make call to API on server to get currencies and output to page
+    $.get("/api/currencies").then(function(data) {
+        function drawTable(data) {
+            var html = '';
+            for (const key in data) {
+              html += '<tr><td>' + key +':' + '</td><td>' + data[key] + '</td><td>' + '</tr>';
+            }
+            $("#date").text(dateToday);
+            $('#table tbody').append(html);
+        }
+        drawTable(data);
+    });
+
+    // Activate function to fade in cards as they scrolled down
     $(window).on("load",function() {
         $(window).scroll(function() {
-          var windowBottom = $(this).scrollTop() + $(this).innerHeight();
+          let windowBottom = $(this).scrollTop() + $(this).innerHeight();
           $(".fade").each(function() {
             /* Check the location of each desired element */
-            var objectBottom = $(this).offset().top + $(this).outerHeight();
+            let objectBottom = $(this).offset().top + $(this).outerHeight();
             
             /* If the element is completely within bounds of the window, fade it in */
-            if (objectBottom < windowBottom) { //object comes into view (scrolling down)
+            if (objectBottom - 200 < windowBottom) { //object comes into view (scrolling down)
               if ($(this).css("opacity")==0) {$(this).fadeTo(200,1);}
             } 
           });
@@ -40,28 +54,11 @@ $(document).ready(function() {
         urlInput.val("");
     });
 
-
-    // // function to render the item details after getting data from our API
-    // const renderItemPage = (data) => {
-    //   console.log(data)
-    //   window.location.replace('/view/'+ data.id)
-    // }
-
-
-
     // View item handler
     $('.view-item').on('click', function() {
         const itemId = ($(this).attr('data-item-id'))
         console.log(itemId);
         window.location.replace('/item/'+ itemId)
-        // $.ajax({
-        //     url: '/item/' + itemId,
-        //     type: 'GET',
-        //     success: function(results) {
-        //         // console.log(results)
-        //         // renderItemPage(results)
-        //     }
-        // })
     })
     
     // Delete button handler
@@ -104,10 +101,18 @@ $(document).ready(function() {
             url: url
         })
         .then(function(data) {    
-            // Reload the page so the user can see the new item
-            console.log('Added new item!');
-            // We'll need to do something like this when it's added
-            window.location.replace('/dashboard');
+            if (data.title) {
+                // Reload the page so the user can see the new item
+                console.log('Added new item!', data.title);
+                window.location.replace('/dashboard');
+            }
+            $('.error-msg').removeClass('invisible');
+            $('.error-msg').addClass('animate__animated animate__zoomIn');
+            console.log('unable to scrape from this URL');
+            setTimeout(() => {
+                window.location.replace('/dashboard');
+            }, 2000);
+            
         })
     }
 

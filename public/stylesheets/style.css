@@ -29,6 +29,19 @@ h3 {
   text-align: center;
   color:maroon
 }
+.error-msg {
+  position: fixed;
+  top: 30%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  color: red;
+  border-color: gray;
+}
+
+.categories {
+  color: darkslategray
+}
 
 .welcome {
   font-style: italic;
@@ -62,6 +75,11 @@ h3 {
 img.intro {
   max-width:220px;
   max-height:220px;
+  width: auto;
+  height: auto;
+}
+
+.intro-big {
   width: auto;
   height: auto;
 }
@@ -134,7 +152,7 @@ i {
 .loader {
   position: fixed;
   top: 40%;
-  left: 50%;
+  left: 40%;
   transform: translate(-50%, -50%);
   border: 10px solid  rgba(234, 237, 240, 0.5);
   border-radius: 50%;

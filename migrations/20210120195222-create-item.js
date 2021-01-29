@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       url: {
         type: Sequelize.STRING
@@ -26,6 +26,9 @@ module.exports = {
       category: {
         type: Sequelize.STRING
       },
+      note: {
+        type: Sequelize.STRING
+      },
       retailer: {
         type: Sequelize.STRING
       },
@@ -33,7 +36,7 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       imgURL: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

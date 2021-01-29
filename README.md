@@ -1,4 +1,6 @@
-# Window Shoppin' :star2:
+
+# Window Shoppin' ![Logo](/public/images/favicon.ico)
+
 <img alt="JavaScript" src="https://img.shields.io/badge/javascript%20-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/> <img alt="jQuery" src="https://img.shields.io/badge/jquery%20-%230769AD.svg?&style=for-the-badge&logo=jquery&logoColor=white"/> <img alt="NodeJS" src="https://img.shields.io/badge/node.js%20-%2343853D.svg?&style=for-the-badge&logo=node.js&logoColor=white"/> <img alt="Express.js" src="https://img.shields.io/badge/express.js%20-%23404d59.svg?&style=for-the-badge"/> <img alt="MySQL" src="https://img.shields.io/badge/mysql-%2300f.svg?&style=for-the-badge&logo=mysql&logoColor=white"/> <img alt="SQLite" src ="https://img.shields.io/badge/sqlite-%2307405e.svg?&style=for-the-badge&logo=sqlite&logoColor=white"/>
 
 You love checkin' out the goods in the windows of your favourite shopping district? Why not bring that experience online, and never forget what you've dreamed about buyin'? With **Window Shoppin'** , you get that same experience, but way better!
@@ -76,4 +78,8 @@ Lina Zughaiyer: [linazughaiyer@hotmail.com](mailto:linazughaiyer@hotmail.com)
 
   
 ![UofT](/public/images/uoft.jpg)
+
+
+
+
 Project #2 (featuring Eldar, Keith, Lina &amp; Michael), a project at UofT coding bootcamp.

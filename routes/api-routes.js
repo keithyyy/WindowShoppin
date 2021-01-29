@@ -4,7 +4,26 @@ let passport = require("../config/passport");
 let scrapeItem = require("../controllers/scraper");
 const item = require("../models/item");
 const { response } = require("express");
+const getCurrencies = require("../controllers/currenciesController");
+const moment = require('moment'); // require
+let lastUpdate;
+let selectCur = {};
 
+// Helper function to get currencies
+const fetchCurrencies = () => {
+  getCurrencies((result) => {
+    lastUpdate = result;
+    result = result.conversion_rates
+    for( key in result){
+      if (key === 'USD' || key === 'CAD' || key === 'EUR' || key === 'GBP' || key === 'RUB' || key === 'JPY' || key === 'CNY' || key === 'AUD'){
+        selectCur[key] = result[key]
+      }
+    }
+  });
+};
+
+// Fetch currencies on first run
+fetchCurrencies();
 
 module.exports = function(app) {
   // Using the passport.authenticate middleware with our local strategy.
@@ -48,6 +67,22 @@ module.exports = function(app) {
         email: req.user.email,
         id: req.user.id
       });
+    }
+  });
+
+  // API to get update on currency rates from exchangerate-api
+  app.get("/api/currencies", function(req, res) {
+    if (!req.user) {
+      // The user is not logged in, send back an empty object
+      res.json({});
+    } else {
+        // If update is not old do not call API again
+        if(!lastUpdate || lastUpdate.time_last_update_utc.slice(0, 16) !== moment().format('ddd, DD MMM YYYY')){
+          // Otherwise get and send back the select currencies
+          console.log('updating curencies');
+          fetchCurrencies();
+        } 
+        res.json(selectCur);
     }
   });
 
@@ -98,7 +133,7 @@ module.exports = function(app) {
         // scraperController(req.body.url, (data) => {
         scrapeItem(req.body.url, (data) => {
           // save to db and return
-          if (data) {
+          if (data.title) {
             data.UserId = req.user.id;
             db.Item.create(data, { logging: false }).then((result) => {
               console.log('created item: ', data.title);

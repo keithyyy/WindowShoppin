@@ -76,4 +76,7 @@ Lina Zughaiyer: [linazughaiyer@hotmail.com](mailto:linazughaiyer@hotmail.com)
 
   
 ![UofT](/public/images/uoft.jpg)
+
+
+
 Project #2 (featuring Eldar, Keith, Lina &amp; Michael), a project at UofT coding bootcamp.

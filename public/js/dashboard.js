@@ -54,6 +54,73 @@ $(document).ready(function() {
         urlInput.val("");
     });
 
+
+    // References for Note form and input
+    var addNoteForm = $("form#add-note");
+    var noteInput = $("input#note-input");
+    var itemID = $("button#selected-id").attr("data-item-id")
+
+    // Add note handler
+    addNoteForm.on("submit", function(event) {
+        event.preventDefault();
+        var noteData = {
+            id: itemID,
+            note: noteInput.val().trim()
+        };
+        if (!noteData.note) {
+            return;
+        }
+        addNoteInfo(noteData);
+        noteInput.val("")
+    })
+
+    function addNoteInfo(note) {
+
+        $.ajax({
+            url: "/api/items/" + note.id,
+            type: 'PUT',
+            data: note,
+            success: function(result) {
+                console.log(result,note.id, ' item is updated');
+                window.location.replace('/item/'+note.id);
+            }
+        })
+        
+    }
+
+    // References for Category input
+    var addCategoryForm = $("form#add-category");
+    var categoryInput = $("input#category-input");
+
+    // Add Category Handler
+    addCategoryForm.on("submit", function(event) {
+        event.preventDefault();
+        var categoryData = {
+            id: itemID,
+            category: categoryInput.val().trim()
+        };
+        if (!categoryData.category) {
+            return;
+        }
+        addCategoryInfo(categoryData);
+        categoryInput.val("")
+    })
+    
+    function addCategoryInfo(category) {
+
+        $.ajax({
+            url: "/api/items/" + category.id,
+            type: 'PUT',
+            data: category,
+            success: function(result) {
+                console.log('item is updated!');
+                window.location.replace('/item/'+category.id);
+            }
+        })
+        
+    }
+
+
     // View item handler
     $('.view-item').on('click', function() {
         const itemId = ($(this).attr('data-item-id'))
@@ -143,4 +210,5 @@ $(document).ready(function() {
 
     
     
+
 });

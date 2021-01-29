@@ -125,6 +125,18 @@ module.exports = function(app) {
     });
   });
 
+  // Route for adding in a note
+  app.put('/api/items/:id', (req, res) => {
+    console.log(req.body)
+    db.Item.update(req.body, {
+      where: {
+        UserId: req.user.id,
+        id: req.params.id,
+      }
+    })
+    .then((dbPost) => res.json(dbPost))
+  })
+
 
   // Route for scraping item data from url
   app.post("/api/scrape", (req, res) => {

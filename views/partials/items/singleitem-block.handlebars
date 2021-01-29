@@ -39,8 +39,12 @@
         <hr>
         <p class="card-text" id="item-description">{{{description}}}</p>
         <div class="row card-text">
-            <h4>Notes</h4>
-            <p>{{note}}</p>
+            <h4>Notes:</h4>
+            <h6>{{note}}</h6>
+        </div>
+        <div class="row card-text">
+            <h4>Category - </h4>
+            <h6>{{category}}</h6>
         </div>
 
         <div class="container">
@@ -49,7 +53,7 @@
                     <div class="card animate__animated animate__zoomIn">
                         <div class="card-body">
                             <h3>Take Note!</h3>
-                            <form class="updateItem">
+                            <form class="updateItem" id="add-note">
                                 <div class="form-group">
                                     <label class="text-primary" for="note-input">Add/update a note about this
                                         item</label>
@@ -57,7 +61,7 @@
                                         required>
                                 </div>
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-outline-dark mb-5">Add/Update Note</button>
+                                    <button type="submit" class="btn btn-outline-dark mb-5" id="selected-id" data-item-id={{id}}>Add/Update Note</button>
                                 </div>
                             </form>
                         </div>
@@ -67,7 +71,7 @@
                     <div class="card animate__animated animate__zoomIn">
                         <div class="card-body">
                             <h3>Organize My Goods!</h3>
-                            <form class="updateItem">
+                            <form class="updateItem" id="add-category">
                                 <div class="form-group">
                                     <label class="text-primary" for="category-input">Give this item a new
                                         category</label>

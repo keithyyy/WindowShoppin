@@ -60,7 +60,12 @@ $(document).ready(function() {
         console.log(itemId);
         window.location.replace('/item/'+ itemId)
     })
-    
+
+    // Go back to full dashboard handler
+    $('.back-to-dash').on('click', function() {
+        window.location.replace('/dashboard');
+    })
+
     // Delete button handler
     $('.delete').on('click', function(){
         const itemId = ($(this).attr('data-id'));

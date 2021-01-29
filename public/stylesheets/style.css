@@ -39,6 +39,10 @@ h3 {
   border-color: gray;
 }
 
+.categories {
+  color: darkslategray
+}
+
 .welcome {
   font-style: italic;
   font-size: 24px;

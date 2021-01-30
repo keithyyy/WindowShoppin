@@ -54,6 +54,8 @@ From the single item view page, clicking on `Show Me My Goods` will take you bac
 
 When you would like to log out of *Window Shoppin'*, simply click `Log Out` in the navigation bar at the top of the page. 
 
+Application works on many online shopping websites including Amazon, BestBuy, Kijiji, Ebay, Get Outside Shoes etc.
+
 All app code is available at repository [https://github.com/keithyyy/WindowShoppin](https://github.com/keithyyy/WindowShoppin)
 
 ## License

@@ -34,6 +34,7 @@ $(document).ready(function() {
     $.get("/api/user_data").then(function(data) {
         $(".member-name").text(data.email);
     });
+
     // Getting references to our form and input
     var addItemForm = $("form#add-item-form");
     var urlInput = $("input#url-input");
@@ -54,15 +55,72 @@ $(document).ready(function() {
         urlInput.val("");
     });
 
+    // References for Note form and input
+    var addNoteForm = $("form#add-note");
+    var noteInput = $("textarea#note-input");
+    var itemID = $("button#selected-id").attr("data-item-id");
+    noteInput.val($('#note').text());
+
+    // Add note handler
+    addNoteForm.on("submit", function(event) {
+        event.preventDefault();
+        var noteData = {
+            id: itemID,
+            note: noteInput.val().trim()
+        };
+        addNoteInfo(noteData);
+        noteInput.val("")
+    })
+
+    function addNoteInfo(note) {
+        $.ajax({
+            url: "/api/items/" + note.id,
+            type: 'PUT',
+            data: note,
+            success: function(result) {
+                console.log(result,note.id, ' item is updated');
+                window.location.replace('/item/'+ note.id);
+            }
+        })
+    }
+
+    // References for Category input
+    var addCategoryForm = $("form#add-category");
+    var categoryInput = $("input#category-input");
+
+    // Add Category Handler
+    addCategoryForm.on("submit", function(event) {
+        event.preventDefault();
+        var categoryData = {
+            id: itemID,
+            category: categoryInput.val().trim()
+        };
+        addCategoryInfo(categoryData);
+        categoryInput.val("")
+    })
+    
+    function addCategoryInfo(category) {
+        $.ajax({
+            url: "/api/items/" + category.id,
+            type: 'PUT',
+            data: category,
+            success: function(result) {
+                console.log('item is updated!');
+                window.location.replace('/item/'+category.id);
+            }
+        })
+    }
+
     // View item handler
     $('.view-item').on('click', function() {
-        const itemId = ($(this).attr('data-item-id'))
+        const itemId = ($(this).attr('data-item-id'));
         console.log(itemId);
-        window.location.replace('/item/'+ itemId)
+        window.location.replace('/item/'+ itemId);
     })
 
     // Go back to full dashboard handler
     $('.back-to-dash').on('click', function() {
+        console.log("redirecting to dash...")
         window.location.replace('/dashboard');
     })
 
@@ -100,6 +158,16 @@ $(document).ready(function() {
         window.location.replace('/dashboard');
     });
 
+    // Check button handler on view page
+    $('.check-update-view').on('click', async function(){
+        const itemId = ($(this).attr('data-id'));
+        console.log('checking update on Item: ', itemId);
+        // Start spinner
+        $('.loader').removeClass('invisible');
+        await checkItemforUpdate(itemId, function(){});
+        window.location.replace('/item/'+ itemId);
+    });
+
     // Function to make call to scrape API and add item in DB.
     function addItemUrl(url) {
         $.post("/api/scrape", {
@@ -117,7 +185,6 @@ $(document).ready(function() {
             setTimeout(() => {
                 window.location.replace('/dashboard');
             }, 2000);
-            
         })
     }
 

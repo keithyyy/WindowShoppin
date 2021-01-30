@@ -1,21 +1,31 @@
 <div class="card col-12 fade">
     <div class="card-body item-card">
-        
         <div class="row">
-            <img class="card-img-left col" src="{{imgURL}}" alt="Item image">
-            {{#if isUpdated}}
-            <i class="material-icons text-danger updated">new_releases</i>
-            <audio autoplay>
-                <source src="/audio/ding.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-            {{else}}
-            <i class="material-icons text-danger invisible">new_releases</i>
-            {{/if}}
-            <div class="col">
-                <h5 class="card-title item-title mb-0">{{title}}</h5>
+            <div class="col-2">
+                <a href="{{url}}" target="blank">
+                    <img class="card-img-left col" src="{{imgURL}}" alt="Item image">
+                    {{#if isUpdated}}
+                    <i class="material-icons text-danger updated">new_releases</i>
+                    <audio autoplay>
+                        <source src="/audio/ding.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    {{else}}
+                    <i class="material-icons text-danger invisible">new_releases</i>
+                    {{/if}}
+                </a>
+            </div>
+            
+            <div class="col-8">
+                <small class="mb-0">Category: {{category}}</small>
+                <a href="{{url}}" target="blank" >
+                    <h5 class="card-title item-title mb-0">{{title}}</h5>
+                </a>
                 <small class="date-added text-muted">{{sliceTime createdAt}}</small>
-                <div class="row justify-content-end">
+                <p class="my-1 text-primary">Note: <span class="text-dark">{{note}}</span></p>
+            </div>
+            <div class="col-2">
+                <div class="row float-right">
                     <div class="price-initial">
                         <p class="mb-0 text-muted">initial price</p>
                         <p id="item-initial-price mx-2" class="text-primary"><i class="material-icons">attach_money</i>{{initialPrice}}</p>
@@ -25,14 +35,20 @@
                         <p id="item-new-price" class="text-danger"><i class="material-icons">attach_money</i>{{newPrice}}</p>
                     </div>
                 </div>
-
-                <a href="" class="btn btn-primary float-right mx-1 my-1 view-item" target="blank" data-item-id="{{id}}">View</a>
-                <button class="btn btn-outline-danger float-right mx-1 my-1 delete" data-id={{id}}>Delete</button>
-                <button class="btn btn-outline-secondary float-right mx-1 my-1 check-update" data-id={{id}}>Check</button>
-
+                <div class="row">
+                    <button class="btn btn-outline-secondary float-right mx-1 my-1 check-update" title="update" data-id={{id}}>
+                        <span class="material-icons">cached</span>
+                    </button>
+                    <button class="btn btn-outline-danger float-right mx-1 my-1 delete" title="delete" data-id={{id}}>
+                        <span class="material-icons">remove_shopping_cart</span>
+                    </button>
+                    <a class="btn btn-primary float-right mx-1 my-1 view-item pt-2" data-item-id="{{id}}">view</a>
+                </div>
             </div>
         </div>
-        <hr>
-        <p class="card-text" id="item-description">{{{description}}}</p>
+    
+    <hr class="my-1">
     </div>
+    
+    <p class="card-text pb-1" id="item-description">{{{description}}}</p>
 </div>

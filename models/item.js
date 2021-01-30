@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     initialPrice: DataTypes.DECIMAL(10,2),
     newPrice: DataTypes.DECIMAL(10,2),
     category: DataTypes.STRING,
-    note: DataTypes.STRING,
+    note: DataTypes.TEXT,
     retailer: DataTypes.STRING,
     isUpdated: {
       type: DataTypes.BOOLEAN,

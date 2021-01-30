@@ -1,94 +1,92 @@
-<div class="card col-12">
-    <div class="card-body item-card">
-        {{!-- I used same Item card html here, just change it and add input fields --}}
+<div class="card col-12 pb-4">
+    <div class="card-body item-card animate__animated animate__fadeIn">
         <div class="row">
-            <img class="card-img-left col" src="{{imgURL}}" alt="Item image">
-            {{#if isUpdated}}
-            <i class="material-icons text-danger updated">new_releases</i>
-            <audio autoplay>
-                <source src="/audio/ding.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-            {{else}}
-            <i class="material-icons text-danger invisible">new_releases</i>
-            {{/if}}
-            <div class="col">
-                <h5 class="card-title item-title mb-0">{{title}}</h5>
-                <h4 class="categories">{{category}}</h4>
+            <div class="col-2">
+                <a href="{{url}}" target="blank">
+                    <img class="card-img-left col px-0" src="{{imgURL}}" alt="Item image">
+                    {{#if isUpdated}}
+                    <i class="material-icons text-danger updated">new_releases</i>
+                    <audio autoplay>
+                        <source src="/audio/ding.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    {{else}}
+                    <i class="material-icons text-danger invisible">new_releases</i>
+                    {{/if}}
+                </a>
+            </div>
+            
+            <div class="col-8">
+                <small class="mb-0">Category: {{category}}</small>
+                <a href="{{url}}" target="blank" >
+                    <h5 class="card-title item-title mb-0">{{title}}</h5>
+                </a>
                 <small class="date-added text-muted">{{sliceTime createdAt}}</small>
-                <div class="row justify-content-end">
+                <p class="my-1 text-primary">Note: <span class="text-dark" id="note">{{note}}</span></p>
+            </div>
+            <div class="col-2 px-0">
+                <div class="row float-right">
                     <div class="price-initial">
                         <p class="mb-0 text-muted">initial price</p>
-                        <p id="item-initial-price mx-2" class="text-primary"><i
-                                class="material-icons">attach_money</i>{{initialPrice}}</p>
+                        <p id="item-initial-price mx-2" class="text-primary"><i class="material-icons">attach_money</i>{{initialPrice}}</p>
                     </div>
                     <div class="price-new">
                         <p class="mb-0 text-muted mx-2">new price</p>
-                        <p id="item-new-price" class="text-danger"><i
-                                class="material-icons">attach_money</i>{{newPrice}}</p>
+                        <p id="item-new-price" class="text-danger"><i class="material-icons">attach_money</i>{{newPrice}}</p>
                     </div>
                 </div>
-
-                <a class="btn btn-primary float-right mx-1 view-item" target="blank" data-item-id="{{id}}">View</a>
-                <button class="btn btn-outline-danger float-right mx-1 delete" data-id={{id}}>Delete</button>
-                <button class="btn btn-outline-secondary float-right mx-1 check-update" data-id={{id}}>Check</button>
-
+                <div class="row float-right pr-1">
+                    <button class="btn btn-outline-secondary float-right mx-1 my-1 check-update-view" title="update" data-id={{id}}>
+                        <span class="material-icons">cached</span>
+                    </button>
+                    <button class="btn btn-outline-danger float-right mx-1 my-1 delete" title="delete" data-id={{id}}>
+                        <span class="material-icons">remove_shopping_cart</span>
+                    </button>
+                    <a class="btn btn-primary float-right mx-1 my-1 pt-2" href="{{url}}" target="blank" data-item-id="{{id}}">view</a>
+                </div>
             </div>
         </div>
-        <hr>
-        <hr>
-        <p class="card-text" id="item-description">{{{description}}}</p>
-        <div class="row card-text">
-            <h4>Notes</h4>
-            <p>{{note}}</p>
-        </div>
+    <hr class="my-1">
+    <p class="card-text mt-0" id="item-description">{{{description}}}</p>
+    </div>
 
-        <div class="container">
-            <div class="row d-flex justify-content-left">
-                <div class="col-md-6">
-                    <div class="card animate__animated animate__zoomIn">
-                        <div class="card-body">
-                            <h3>Take Note!</h3>
-                            <form class="updateItem">
-                                <div class="form-group">
-                                    <label class="text-primary" for="note-input">Add/update a note about this
-                                        item</label>
-                                    <input type="note" class="form-control" id="note-input" placeholder="Don't Forget!"
-                                        required>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-outline-dark mb-5">Add/Update Note</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card animate__animated animate__zoomIn">
-                        <div class="card-body">
-                            <h3>Organize My Goods!</h3>
-                            <form class="updateItem">
-                                <div class="form-group">
-                                    <label class="text-primary" for="category-input">Give this item a new
-                                        category</label>
-                                    <input type="category" class="form-control" id="category-input"
-                                        placeholder="e.g. Electronics, shoes, automobiles, etc.">
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-outline-dark mb-5">Add/Update Category</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 mt-3">
-                    <div class="text-center">
-                        <button type="submit" id="back-to-dash"
-                            class="btn btn-warning btn-lg m-1 text-dark animate__animated animate__zoomIn"
-                            role="button">Show Me My Goods!</button>
+    <div class="container">
+        <div class="row d-flex justify-content-left">
+            <div class="col-md-6">
+                <div class="card animate__animated animate__zoomIn">
+                    <div class="card-body animate__animated animate__zoomIn">
+                        <h3>Take Note!</h3>
+                        <form class="updateItem" id="add-note">
+                            <div class="form-group">
+                                <label class="text-primary" for="note-input">Add/update a note about this item</label>
+                                <textarea name="note" type="note" id="note-input" placeholder="Don't Forget!" class="form-control" cols="30" rows="2"></textarea>
+                                {{!-- <input type="note" class="form-control" id="note-input" placeholder="Don't Forget!" required> --}}
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-outline-dark" id="selected-id" data-item-id={{id}}>Add/Update Note</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-
-
+            <div class="col-md-6">
+                <div class="card animate__animated animate__zoomIn">
+                    <div class="card-body animate__animated animate__zoomIn">
+                        <h3>Organize My Goods!</h3>
+                        <form class="updateItem" id="add-category">
+                            <div class="form-group">
+                                <label class="text-primary" for="category-input">Give this item a new
+                                    category</label>
+                                <input type="category" class="form-control" id="category-input"
+                                    placeholder="e.g. Electronics, shoes, automobiles, etc.">
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-outline-dark mt-4">Add/Update Category</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</div>

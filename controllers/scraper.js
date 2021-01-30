@@ -32,7 +32,7 @@ async function scrapeItem(url, cb) {
         let product = await page.evaluate(async () => {
             let results = {};
             // Scrape title|name of product
-            let items = document.querySelectorAll('[class*="product-title"], [class*="productName"], [class*="product-name"], [class*="productTitle"], .product-detail__title h1, [class*="mainColumn-"] div [class*="title-"], #itemTitle');
+            let items = document.querySelectorAll('.page-title > span, [class*="product-title"], [class*="productName"], [class*="product-name"], [class*="productTitle"], .product-detail__title h1, [class*="mainColumn-"] div [class*="title-"], #itemTitle');
             items.forEach(item => {
                 if (item.innerText) {
                     results.title = item.innerText.trim();
@@ -45,6 +45,10 @@ async function scrapeItem(url, cb) {
                     results.imgURL = image.src;
                 };
             });
+            // Get image from meta tag if not present in class selector
+            if (!results.imgURL) {
+                results.imgURL = document.querySelector("meta[property='og:image']").getAttribute('content')
+            }
 
             let ebayImg = document.querySelector('.tdThumb div img');
             if (ebayImg) {

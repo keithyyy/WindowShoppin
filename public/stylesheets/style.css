@@ -77,6 +77,7 @@ img.intro {
   max-height:220px;
   width: auto;
   height: auto;
+
 }
 
 .intro-big {
@@ -125,8 +126,7 @@ i {
 .card-img-left {
   max-width:200px;
   max-height:200px;
-  width: auto;
-  height: auto;
+  object-fit: contain;
 }
 
 .card-columns {

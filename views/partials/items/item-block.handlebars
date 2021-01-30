@@ -1,7 +1,7 @@
-<div class="card col-12 fade">
+<div class="card col-sm-12 fade">
     <div class="card-body item-card">
         <div class="row">
-            <div class="col-2">
+            <div class="col-sm-2">
                 <a href="{{url}}" target="blank">
                     <img class="card-img-left col" src="{{imgURL}}" alt="Item image">
                     {{#if isUpdated}}
@@ -16,7 +16,7 @@
                 </a>
             </div>
             
-            <div class="col-8">
+            <div class="col-sm-8">
                 <small class="mb-0">Category: {{category}}</small>
                 <a href="{{url}}" target="blank" >
                     <h5 class="card-title item-title mb-0">{{title}}</h5>
@@ -24,17 +24,20 @@
                 <small class="date-added text-muted">{{sliceTime createdAt}}</small>
                 <p class="my-1 text-primary">Note: <span class="text-dark">{{note}}</span></p>
             </div>
-            <div class="col-2">
-                <div class="row float-right">
-                    <div class="price-initial">
-                        <p class="mb-0 text-muted">initial price</p>
-                        <p id="item-initial-price mx-2" class="text-primary"><i class="material-icons">attach_money</i>{{initialPrice}}</p>
-                    </div>
-                    <div class="price-new">
-                        <p class="mb-0 text-muted mx-2">new price</p>
-                        <p id="item-new-price" class="text-danger"><i class="material-icons">attach_money</i>{{newPrice}}</p>
+            <div class="col-sm-2">
+                <div class="">
+                    <div class="row float-right price-row">
+                        <div class="price-initial">
+                            <p class="mb-0 text-muted">initial price</p>
+                            <p id="item-initial-price mx-2" class="text-primary"><i class="material-icons">attach_money</i>{{initialPrice}}</p>
+                        </div>
+                        <div class="price-new">
+                            <p class="mb-0 text-muted mx-2">new price</p>
+                            <p id="item-new-price" class="text-danger"><i class="material-icons">attach_money</i>{{newPrice}}</p>
+                        </div>
                     </div>
                 </div>
+                
                 <div class="row">
                     <button class="btn btn-outline-secondary float-right mx-1 my-1 check-update" title="update" data-id={{id}}>
                         <span class="material-icons">cached</span>

@@ -15,6 +15,8 @@ No more trying to remember the exact name of those wireless headphones you were 
 
   **Technologies\libraries used to code application:** Node.js, Express.js, Handlebars, [Puppeteer](https://pptr.dev/) high-level API to control Chromium to scrape websites for data, JavaScript, jQuery, Animate CSS, Bootstrap, MySQL, [Sequelize ORM.](https://sequelize.org/)
   3rd party API: [Exchange Rate API](https://www.exchangerate-api.com/).
+  
+  Application repo was configured to use Travis CI/CD with testing using Mocha test framework and ESLint checking.
 
 ### Screenshot
 ![Demo screenshot 1](/public/images/demo.gif)

@@ -1,7 +1,8 @@
 <div class="card col-12 pb-4">
     <div class="card-body item-card animate__animated animate__fadeIn">
-        <div class="row">
-            <div class="col-2">
+        <div class="container-fluid">
+            <div class="row">
+            <div class="col-sm-2">
                 <a href="{{url}}" target="blank">
                     <img class="card-img-left col px-0" src="{{imgURL}}" alt="Item image">
                     {{#if isUpdated}}
@@ -16,7 +17,7 @@
                 </a>
             </div>
             
-            <div class="col-8">
+            <div class="col-sm-8">
                 <small class="mb-0">Category: {{category}}</small>
                 <a href="{{url}}" target="blank" >
                     <h5 class="card-title item-title mb-0">{{title}}</h5>
@@ -24,7 +25,7 @@
                 <small class="date-added text-muted">{{sliceTime createdAt}}</small>
                 <p class="my-1 text-primary">Note: <span class="text-dark" id="note">{{note}}</span></p>
             </div>
-            <div class="col-2 px-0">
+            <div class="col-sm-2 px-0">
                 <div class="row float-right">
                     <div class="price-initial">
                         <p class="mb-0 text-muted">initial price</p>
@@ -46,6 +47,8 @@
                 </div>
             </div>
         </div>
+        </div>
+        
     <hr class="my-1">
     <p class="card-text mt-0" id="item-description">{{{description}}}</p>
     </div>

@@ -91,8 +91,8 @@ img.fav {
   max-height:30px;
   width: auto;
   height: auto;
-
 }
+
 #logo {
   margin-top: 60px;
 }
@@ -212,5 +212,30 @@ textarea {
   100% {
       opacity: 0;
       transform: scale(2);
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .logo-small {
+      max-width: 100px;
+      object-fit: contain;
+  }
+  .welcome {
+    font-size: 12px;
+  }
+  #subtitle{
+    font-size: 1rem;
+  }
+  h3 {
+    font-size: 1rem;
+  }
+
+  .main {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+
+  .price-row {
+    float: none!important;
   }
 }

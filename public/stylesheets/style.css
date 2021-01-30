@@ -230,12 +230,20 @@ textarea {
     font-size: 1rem;
   }
 
-  .main {
-    padding-right: 0px;
-    padding-left: 0px;
-  }
+  
 
   .price-row {
     float: none!important;
+  }
+
+  .logout {
+    display: none;
+  }
+
+}
+
+@media only screen and (max-width: 280px) {
+  .welcome {
+    font-size: 0.5rem;
   }
 }

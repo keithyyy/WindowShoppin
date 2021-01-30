@@ -34,6 +34,7 @@ $(document).ready(function() {
     $.get("/api/user_data").then(function(data) {
         $(".member-name").text(data.email);
     });
+
     // Getting references to our form and input
     var addItemForm = $("form#add-item-form");
     var urlInput = $("input#url-input");
@@ -54,11 +55,11 @@ $(document).ready(function() {
         urlInput.val("");
     });
 
-
     // References for Note form and input
     var addNoteForm = $("form#add-note");
-    var noteInput = $("input#note-input");
-    var itemID = $("button#selected-id").attr("data-item-id")
+    var noteInput = $("textarea#note-input");
+    var itemID = $("button#selected-id").attr("data-item-id");
+    noteInput.val($('#note').text());
 
     // Add note handler
     addNoteForm.on("submit", function(event) {
@@ -67,25 +68,20 @@ $(document).ready(function() {
             id: itemID,
             note: noteInput.val().trim()
         };
-        if (!noteData.note) {
-            return;
-        }
         addNoteInfo(noteData);
         noteInput.val("")
     })
 
     function addNoteInfo(note) {
-
         $.ajax({
             url: "/api/items/" + note.id,
             type: 'PUT',
             data: note,
             success: function(result) {
                 console.log(result,note.id, ' item is updated');
-                window.location.replace('/item/'+note.id);
+                window.location.replace('/item/'+ note.id);
             }
         })
-        
     }
 
     // References for Category input
@@ -99,15 +95,11 @@ $(document).ready(function() {
             id: itemID,
             category: categoryInput.val().trim()
         };
-        if (!categoryData.category) {
-            return;
-        }
         addCategoryInfo(categoryData);
         categoryInput.val("")
     })
     
     function addCategoryInfo(category) {
-
         $.ajax({
             url: "/api/items/" + category.id,
             type: 'PUT',
@@ -117,15 +109,13 @@ $(document).ready(function() {
                 window.location.replace('/item/'+category.id);
             }
         })
-        
     }
-
 
     // View item handler
     $('.view-item').on('click', function() {
-        const itemId = ($(this).attr('data-item-id'))
+        const itemId = ($(this).attr('data-item-id'));
         console.log(itemId);
-        window.location.replace('/item/'+ itemId)
+        window.location.replace('/item/'+ itemId);
     })
 
     // Go back to full dashboard handler
@@ -168,6 +158,16 @@ $(document).ready(function() {
         window.location.replace('/dashboard');
     });
 
+    // Check button handler on view page
+    $('.check-update-view').on('click', async function(){
+        const itemId = ($(this).attr('data-id'));
+        console.log('checking update on Item: ', itemId);
+        // Start spinner
+        $('.loader').removeClass('invisible');
+        await checkItemforUpdate(itemId, function(){});
+        window.location.replace('/item/'+ itemId);
+    });
+
     // Function to make call to scrape API and add item in DB.
     function addItemUrl(url) {
         $.post("/api/scrape", {
@@ -185,7 +185,6 @@ $(document).ready(function() {
             setTimeout(() => {
                 window.location.replace('/dashboard');
             }, 2000);
-            
         })
     }
 
@@ -207,8 +206,4 @@ $(document).ready(function() {
         $('.spinner-small').removeClass('invisible');
         await checkForUpdates();
     })
-
-    
-    
-
 });

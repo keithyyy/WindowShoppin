@@ -32,14 +32,16 @@ async function scrapeItem(url, cb) {
         let product = await page.evaluate(async () => {
             let results = {};
             // Scrape title|name of product
-            let items = document.querySelectorAll('[class*="product-title"], [class*="productName"], [class*="product-name"], [class*="productTitle"], .product-detail__title h1, [class*="mainColumn-"] div [class*="title-"], #itemTitle');
+            let items = document.querySelectorAll(`[class*="product-title"], [class*="productName"], [class*="product-name"], 
+                    [class*="productTitle"], .product-detail__title h1, [class*="mainColumn-"] div [class*="title-"], #itemTitle`);
             items.forEach(item => {
                 if (item.innerText) {
                     results.title = item.innerText.trim();
                 };
             });
             // Scrape image of product
-            let img = document.querySelectorAll('.imgTagWrapper img, [class*="productImage"], .static-product-image, [class*="heroImageForPrint"]');
+            let img = document.querySelectorAll(`.imgTagWrapper img, [class*="productImage"], .static-product-image, 
+                                                    [class*="heroImageForPrint"]`);
             img.forEach(image => {
                 if (image.src) {
                     results.imgURL = image.src;
@@ -52,7 +54,8 @@ async function scrapeItem(url, cb) {
             };
 
             // Scrape price
-            let prices = document.querySelectorAll('[class*="price"], [class*="Price"], [class*="price__total"], .price__total-value price__total--on-sale');
+            let prices = document.querySelectorAll(`[class*="price"], [class*="Price"], [class*="price__total"], 
+                                                    .price__total-value price__total--on-sale`);
             let amazonPrice = document.querySelector('#priceblock_ourprice');
             let ebayPrice = document.querySelector('#prcIsum');
             let bestBuyPrice = document.querySelector('.screenReaderOnly_3anTj'); 
@@ -75,7 +78,8 @@ async function scrapeItem(url, cb) {
             }
 
             // Scrape description
-            let description = document.querySelectorAll('.product-description-blurb__text, [class*="description"], [class*="Description"], [id*="Description"] p, #viTabs_0_is');
+            let description = document.querySelectorAll(`.product-description-blurb__text, [class*="description"], [class*="Description"], 
+                                                            [id*="Description"] p, #viTabs_0_is`);
             let amazonDescription = document.querySelector('#feature-bullets');
             if (amazonDescription) {
                 amazonDescription = amazonDescription.innerHTML;
@@ -85,7 +89,7 @@ async function scrapeItem(url, cb) {
                     results.description = amazonDescription.replace(/<hr>/gm, "");
                 } else {
                     if (item.innerText && !results.description) {
-                        results.description = item.innerText //.replace(/(\r\n\t|\n|\r|\t)/gm, "");
+                        results.description = item.innerText;
                     }
                 }
             });

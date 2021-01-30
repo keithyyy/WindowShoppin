@@ -3,7 +3,7 @@ const axios = require('axios');
 
 module.exports = function(cb){
 // Make a request to currencies API to get currencies
-    axios.get(`https://v6.exchangerate-api.com/v6/${process.env.API_KEY_FIXER}/latest/USD`)
+    axios.get(`https://v6.exchangerate-api.com/v6/${process.env.API_KEY_CURRENCY}/latest/USD`)
     .then(function (response) {
         console.log('Updated currency rates...');
         // handle success

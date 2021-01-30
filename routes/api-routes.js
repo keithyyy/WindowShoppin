@@ -14,6 +14,7 @@ const fetchCurrencies = () => {
   getCurrencies((result) => {
     lastUpdate = result;
     result = result.conversion_rates
+    // Select only some curencies
     for( key in result){
       if (key === 'USD' || key === 'CAD' || key === 'EUR' || key === 'GBP' || key === 'RUB' || key === 'JPY' || key === 'CNY' || key === 'AUD'){
         selectCur[key] = result[key]
@@ -136,7 +137,6 @@ module.exports = function(app) {
     })
     .then((dbPost) => res.json(dbPost))
   })
-
 
   // Route for scraping item data from url
   app.post("/api/scrape", (req, res) => {

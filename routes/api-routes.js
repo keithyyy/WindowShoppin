@@ -46,7 +46,7 @@ module.exports = function(app) {
         res.redirect(307, "/api/login");
       })
       .catch(function(err) {
-        res.status(401).json(err);
+        res.status(401).json({err});
       });
   });
 
@@ -60,7 +60,7 @@ module.exports = function(app) {
   app.get("/api/user_data", function(req, res) {
     if (!req.user) {
       // The user is not logged in, send back an empty object
-      res.json({});
+      res.json({msg: 'User is not logged in!'});
     } else {
       // Otherwise send back the user's email and id
       // Sending back a password, even a hashed password, isn't a good idea
@@ -75,7 +75,7 @@ module.exports = function(app) {
   app.get("/api/currencies", function(req, res) {
     if (!req.user) {
       // The user is not logged in, send back an empty object
-      res.json({});
+      res.json({msg: 'User is not logged in!'});
     } else {
         // If update is not old do not call API again
         if(!lastUpdate || lastUpdate.time_last_update_utc.slice(0, 16) !== moment().format('ddd, DD MMM YYYY')){
@@ -90,13 +90,13 @@ module.exports = function(app) {
   // API Route for getting all the items of user and send back as JSON 
   app.get("/api/items", (req,res) => {
     if (!req.user) {
-      // The user is not logged in, send back an empty object
-        res.json({});
+      // The user is not logged in, send back message
+        res.json({msg: 'User is not logged in!'});
       } else {
       db.Item.findAll({where: { UserId: req.user.id }}).then((results) => {
         res.json(results);
       }).catch(function(err) {
-        res.status(401).json(err);
+        res.status(401).json({err});
       });
     };
   });
@@ -104,8 +104,8 @@ module.exports = function(app) {
   // Route for finding one single item
   app.get("/api/items/:id", (req,res) => {
     if (!req.user) {
-      // The user is not logged in, send back an empty object
-      res.json({});
+      // The user is not logged in, send back message
+      res.json({msg: 'User is not logged in!'});
     } else {
       db.Item.findOne({
         where: {
@@ -113,12 +113,11 @@ module.exports = function(app) {
           id: req.params.id
         }
       }).then((results) => {
-        res.json(results);
         const hbsItemObject = {
           items: results
         }
+        // send rendered page to view single item
         res.render("viewitem", hbsItemObject)
-        // console.log(results)
       });
     };
   });
@@ -127,7 +126,7 @@ module.exports = function(app) {
   app.delete('/api/items/:id', (req, res) => {
     if (!req.user) {
       // The user is not logged in, send back an empty object
-      res.json({});
+      res.json({msg: 'User is not logged in!'});
     } else {
       db.Item.destroy({
         where: {
@@ -136,17 +135,16 @@ module.exports = function(app) {
         },
       }).then((dbPost) => res.json(dbPost))
       .catch(function(err) {
-        res.status(401).json(err);
+        res.status(401).json({err});
       });
     };
   });
 
   // Route for adding in a note
   app.put('/api/items/:id', (req, res) => {
-    console.log(req.body)
     if (!req.user) {
       // The user is not logged in, send back an empty object
-      res.json({});
+      res.json({msg: 'User is not logged in!'});
     } else {
       db.Item.update(req.body, {
         where: {
@@ -154,7 +152,10 @@ module.exports = function(app) {
           id: req.params.id,
         }
       })
-      .then((dbPost) => res.json(dbPost));
+      .then((dbPost) => res.json(dbPost))
+      .catch(function(err) {
+        res.status(401).json({err});
+      });
     };
   })
 
@@ -164,23 +165,23 @@ module.exports = function(app) {
       if (req.body.url) {
         // scraperController(req.body.url, (data) => {
         scrapeItem(req.body.url, (data) => {
+          console.log('scraped: ', data);
           // save to db and return
           if (data.title) {
             data.UserId = req.user.id;
-            db.Item.create(data, { logging: false }).then((result) => {
+            db.Item.create(data, { logging: false }).then(() => {
               console.log('created item: ', data.title);
-              res.status(201).end();
+              res.status(201).json(data);
             });
-            res.json(data);
           } else {
-            res.send('Unable to get item data').status(404).end();
+            res.status(404).send('Unable to get item data');
           }
         });
       } else {
         res.status(404).end();
       }
     } else {
-      res.status(401).end(); // Return not authorized if no user credentials
+      res.status(401).json({msg: 'User is not logged in!'}); // Return not authorized if no user credentials
     }
   });
 
@@ -208,7 +209,7 @@ module.exports = function(app) {
               },
             }).then((result) => {
               console.log('updated item: ', result);
-              res.send('updated item!').status(200).end()
+              res.status(200).send('updated item!');
             });
           } else {
             console.log('no update!');
@@ -217,11 +218,12 @@ module.exports = function(app) {
                 id: item.id,
               }
             });
-            res.send('no update').status(200);
+            res.status(200).send('no update');
           }
         });
       }). catch (err => {
         console.log('Error, item is not found');
+        res.status(404).send('Item is not found');
       });
     } else {
       res.status(401).end(); // Return not authorized if no user credentials

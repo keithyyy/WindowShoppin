@@ -45,7 +45,7 @@ module.exports = function(app) {
         UserID: req.user.id,
         id: req.params.id
       },
-      raw: true
+      raw: true // Return raw json from DB
     }).then((result) => {
       res.render("viewitem", result)
     })

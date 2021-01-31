@@ -5,7 +5,7 @@
     <p class="welcome text-primary text-sm-center animate__animated animate__zoomIn col offset-md-4">Welcome! 
       <span class="member-name text-secondary"></span>
     </p>
-    <a class="btn btn-sm btn-outline-dark" id="logout" href="/logout">
+    <a class="btn btn-sm btn-outline-dark" id="logout">
       <span class="logout">Logout</span>
       <i class="material-icons fs-2">exit_to_app</i>
     </a>
@@ -44,7 +44,7 @@
               <div class="spinner-border spinner-border-sm text-muted spinner-small invisible mb-1" role="status">
                 <span class="sr-only">Loading...</span>
               </div>
-              Check All</button>
+             <span id="updating"> Check All</span></button>
             </div>
             {{#each items}}
             {{> items/item-block}}

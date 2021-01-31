@@ -32,16 +32,15 @@ async function scrapeItem(url, cb) {
         let product = await page.evaluate(async () => {
             let results = {};
             // Scrape title|name of product
-
             let items = document.querySelectorAll(`.pdp-header__product-name, .page-title > span, [class*="product-title"], 
                   [class*="productName"], [class*="product-name"], [class*="productTitle"], .product-detail__title h1, [class*="mainColumn-"] div [class*="title-"], 
                   #itemTitle`);
-
             items.forEach(item => {
                 if (item.innerText) {
                     results.title = item.innerText.trim();
                 };
             });
+
             // Scrape image of product
             let img = document.querySelectorAll(`.imgTagWrapper img, [class*="productImage"], .static-product-image, 
                                                     [class*="heroImageForPrint"]`);
@@ -56,9 +55,7 @@ async function scrapeItem(url, cb) {
                  if (imgEl) {
                     results.imgURL = imgEl.getAttribute('content');
                  }
-                 
             }
-
             let ebayImg = document.querySelector('#viEnlargeImgLayer_layer_fs_thImg0 > table > tr> td > div > img');
             if (ebayImg) {
                 results.imgURL = ebayImg.src;
@@ -104,7 +101,7 @@ async function scrapeItem(url, cb) {
                     }
                 }
             });
-
+            // If could not scrape description add title as description
             if (!results.description) {
                 results.description = results.title;
             }
@@ -128,6 +125,6 @@ async function scrapeItem(url, cb) {
         console.log('unable to get', err);
     }
     await browser.close();
-}
+};
 
 module.exports = scrapeItem;

@@ -165,7 +165,9 @@ a:hover {
 .loader {
   position: fixed;
   top: 40%;
-  left: 40%;
+  left: 0;
+  right: 0;
+  margin: auto;
   transform: translate(-50%, -50%);
   border: 10px solid  rgba(234, 237, 240, 0.5);
   border-radius: 50%;
@@ -176,6 +178,7 @@ a:hover {
   height: 6rem;
   -webkit-animation: spin 1s linear infinite;
   animation: spin 1s linear infinite;
+  z-index: 2;
 }
 
 textarea {
@@ -188,6 +191,10 @@ textarea {
   top: 10px;
   left: 20px;
   animation: pulse 1s linear infinite;
+}
+
+.view-icon {
+  display: none;
 }
 
 @-webkit-keyframes spin {
@@ -215,6 +222,16 @@ textarea {
   }
 }
 
+@media only screen and (max-width: 1024px) {
+  .view-icon {
+    display: block;
+  }
+
+  .view-text {
+    display: none;
+  }
+}
+
 @media only screen and (max-width: 460px) {
   .logo-small {
       max-width: 100px;
@@ -230,8 +247,6 @@ textarea {
     font-size: 1rem;
   }
 
-  
-
   .price-row {
     float: none!important;
   }
@@ -239,6 +254,12 @@ textarea {
   .logout {
     display: none;
   }
+
+  ul {
+    padding-left: 5px;
+  }
+
+  
 
 }
 

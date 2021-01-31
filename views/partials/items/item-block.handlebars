@@ -1,9 +1,9 @@
 <div class="card col-sm-12 fade">
     <div class="card-body item-card">
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-2 px-0 text-center">
                 <a href="{{url}}" target="blank">
-                    <img class="card-img-left col" src="{{imgURL}}" alt="Item image">
+                    <img class="card-img-left col px-0" src="{{imgURL}}" alt="Item image">
                     {{#if isUpdated}}
                     <i class="material-icons text-danger updated">new_releases</i>
                     <audio autoplay>
@@ -45,7 +45,9 @@
                     <button class="btn btn-outline-danger float-right mx-1 my-1 delete" title="delete" data-id={{id}}>
                         <span class="material-icons">remove_shopping_cart</span>
                     </button>
-                    <a class="btn btn-primary float-right mx-1 my-1 view-item pt-2" data-item-id="{{id}}">view</a>
+                    <a class="btn btn-primary float-right mx-1 my-1 view-item pt-2" data-item-id="{{id}}">
+                        <span class="material-icons view-icon">visibility</span><span class="view-text">view</span>
+                    </a>
                 </div>
             </div>
         </div>

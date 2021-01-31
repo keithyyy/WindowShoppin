@@ -15,7 +15,7 @@ module.exports = function(app) {
     res.sendFile(path.join(__dirname, "../public/intro.html"));
   });
 
-  app.get("/login", function(req, res) {
+  app.get("/login", isAuthenticated, function(req, res) {
     // If the user already has an account send them to the members page
     if (req.user) {
       res.redirect("/dashboard");

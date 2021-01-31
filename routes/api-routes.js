@@ -34,8 +34,8 @@ module.exports = function(app) {
     res.json(req.user);
   });
 
-  // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
-  // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
+  // Route for signing up a user. The user's password is automatically hashed and stored securely
+  // Sequelize User Model is configured. If the user is created successfully, proceed to log the user in,
   // otherwise send back an error
   app.post("/api/signup", function(req, res) {
     db.User.create({
@@ -89,53 +89,73 @@ module.exports = function(app) {
 
   // API Route for getting all the items of user and send back as JSON 
   app.get("/api/items", (req,res) => {
-    db.Item.findAll({where: { UserId: req.user.id }}).then((results) => {
-      res.json(results);
-    }).catch(function(err) {
-      res.status(401).json(err);
-    });
+    if (!req.user) {
+      // The user is not logged in, send back an empty object
+        res.json({});
+      } else {
+      db.Item.findAll({where: { UserId: req.user.id }}).then((results) => {
+        res.json(results);
+      }).catch(function(err) {
+        res.status(401).json(err);
+      });
+    };
   });
 
   // Route for finding one single item
   app.get("/api/items/:id", (req,res) => {
-    db.Item.findOne({
-      where: {
-        UserId: req.user.id,
-        id: req.params.id
-      }
-    }).then((results) => {
-      res.json(results);
-      const hbsItemObject = {
-        items: results
-      }
-      res.render("viewitem", hbsItemObject)
-      // console.log(results)
-    })
-  })
+    if (!req.user) {
+      // The user is not logged in, send back an empty object
+      res.json({});
+    } else {
+      db.Item.findOne({
+        where: {
+          UserId: req.user.id,
+          id: req.params.id
+        }
+      }).then((results) => {
+        res.json(results);
+        const hbsItemObject = {
+          items: results
+        }
+        res.render("viewitem", hbsItemObject)
+        // console.log(results)
+      });
+    };
+  });
 
   // Route for deleting item from DB
   app.delete('/api/items/:id', (req, res) => {
-    db.Item.destroy({
-      where: {
-        UserId: req.user.id,
-        id: req.params.id
-      },
-    }).then((dbPost) => res.json(dbPost))
-    .catch(function(err) {
-      res.status(401).json(err);
-    });
+    if (!req.user) {
+      // The user is not logged in, send back an empty object
+      res.json({});
+    } else {
+      db.Item.destroy({
+        where: {
+          UserId: req.user.id,
+          id: req.params.id
+        },
+      }).then((dbPost) => res.json(dbPost))
+      .catch(function(err) {
+        res.status(401).json(err);
+      });
+    };
   });
 
   // Route for adding in a note
   app.put('/api/items/:id', (req, res) => {
     console.log(req.body)
-    db.Item.update(req.body, {
-      where: {
-        UserId: req.user.id,
-        id: req.params.id,
-      }
-    })
-    .then((dbPost) => res.json(dbPost))
+    if (!req.user) {
+      // The user is not logged in, send back an empty object
+      res.json({});
+    } else {
+      db.Item.update(req.body, {
+        where: {
+          UserId: req.user.id,
+          id: req.params.id,
+        }
+      })
+      .then((dbPost) => res.json(dbPost));
+    };
   })
 
   // Route for scraping item data from url

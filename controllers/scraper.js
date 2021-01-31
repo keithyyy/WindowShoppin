@@ -5,7 +5,7 @@ async function scrapeItem(url, cb) {
     // Shorten url if there is a '?' after url for params
     url = url.substring(0, url.indexOf('?') === -1 ? url.length: url.indexOf('?'));
     const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'], // Updated args to run on heroku
     'ignoreHTTPSErrors': true
     });

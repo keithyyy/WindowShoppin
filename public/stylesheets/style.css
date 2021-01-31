@@ -30,6 +30,10 @@ h3 {
   color:maroon
 }
 
+.footer {
+  background-color: rgba(189, 189, 189, 0.5)
+}
+
 .error-msg {
   position: fixed;
   top: 30%;

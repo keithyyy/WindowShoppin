@@ -33,8 +33,8 @@ async function scrapeItem(url, cb) {
             let results = {};
             // Scrape title|name of product
             let items = document.querySelectorAll(`.pdp-header__product-name, .page-title > span, [class*="product-title"], 
-                  [class*="productName"], [class*="product-name"], [class*="productTitle"], .product-detail__title h1, [class*="mainColumn-"] div [class*="title-"], 
-                  #itemTitle`);
+                  [class*="productName"], [class*="product-name"], [class*="productTitle"], .product-detail__title h1, 
+                  [class*="mainColumn-"] div [class*="title-"], #itemTitle`);
             items.forEach(item => {
                 if (item.innerText) {
                     results.title = item.innerText.trim();
@@ -66,7 +66,8 @@ async function scrapeItem(url, cb) {
                                                     .price__total-value price__total--on-sale`);
             let amazonPrice = document.querySelector('#priceblock_ourprice');
             let ebayPrice = document.querySelector('#prcIsum');
-            let bestBuyPrice = document.querySelector('.screenReaderOnly_3anTj'); 
+            let bestBuyPrice = document.querySelector('.screenReaderOnly_3anTj');
+            const getOutsideShoesPrice = document.querySelector('.product-info-price .price');
             prices.forEach((item) => {
                 if (item.innerText) {
                     results.initialPrice = Number(item.innerText.replace(/[^0-9\.]+/g,""));
@@ -74,16 +75,19 @@ async function scrapeItem(url, cb) {
             });
             if (amazonPrice) {
                 results.initialPrice = Number(amazonPrice.innerText.replace(/[^0-9\.]+/g,""));
-            }
+            };
 
             if (ebayPrice) {
                 results.initialPrice = Number(ebayPrice.innerText.replace(/[^0-9\.]+/g,""));
-            }
+            };
 
             if (bestBuyPrice) {
                 results.initialPrice = Number(bestBuyPrice.innerText.replace(/[^0-9\.]+/g,""));
-                results.bestbuy = bestBuyPrice;
-            }
+            };
+
+            if (getOutsideShoesPrice) {
+                results.initialPrice = Number(getOutsideShoesPrice.innerText.replace(/[^0-9\.]+/g,""));
+            };
 
             // Scrape description
             let description = document.querySelectorAll(`.product-description-blurb__text, [class*="description"], [class*="Description"], 

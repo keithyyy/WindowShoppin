@@ -5,7 +5,7 @@ async function scrapeItem(url, cb) {
     // Shorten url if there is a '?' after url for params
     url = url.substring(0, url.indexOf('?') === -1 ? url.length: url.indexOf('?'));
     const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     args: ['--no-sandbox', '--disable-setuid-sandbox'], // Updated args to run on heroku
     'ignoreHTTPSErrors': true
     });
@@ -23,7 +23,7 @@ async function scrapeItem(url, cb) {
 
   console.log(`Navigating to ${url}...`);
   try {
-    await page.goto(url, { waitUntil: 'networkidle2' }); // wait till html is loaded
+    await page.goto(url, { waitUntil: 'networkidle0' }); // wait till html is loaded
   } catch (err) {
       console.log(err);
   }
@@ -35,11 +35,18 @@ async function scrapeItem(url, cb) {
             let items = document.querySelectorAll(`.pdp-header__product-name, .page-title > span, [class*="product-title"], 
                   [class*="productName"], [class*="product-name"], [class*="productTitle"], .product-detail__title h1, 
                   [class*="mainColumn-"] div [class*="title-"], #itemTitle`);
+
             items.forEach(item => {
-                if (item.innerText) {
+                if (item.innerText !== "") {
                     results.title = item.innerText.trim();
                 };
             });
+            
+            const amazonTitle = document.querySelector('#productTitle')
+
+            if (amazonTitle) {
+                results.title = amazonTitle.innerText.trim();
+            }
 
             // Scrape image of product
             let img = document.querySelectorAll(`.imgTagWrapper img, [class*="productImage"], .static-product-image, 

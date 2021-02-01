@@ -2,25 +2,26 @@
     <a class="navbar-brand" href="/">
       <img src="/images/Window.png" height="60" alt="Logo" class="logo-small animate__animated animate__zoomIn">
     </a>
-    <p class="welcome text-primary text-sm-center animate__animated animate__zoomIn col">Welcome! <span class="member-name text-secondary"></span></p>
-      <a class="btn btn-sm btn-outline-dark" href="/logout">
-        Logout
-        <i class="material-icons fs-2">exit_to_app</i>
-      </a>
+    <p class="welcome text-primary text-sm-center animate__animated animate__zoomIn col offset-md-4">Welcome! 
+      <span class="member-name text-secondary"></span>
+    </p>
+    <a class="btn btn-sm btn-outline-dark" id="logout">
+      <span class="logout">Logout</span>
+      <i class="material-icons fs-2">exit_to_app</i>
+    </a>
 </nav>
 
 <div class="container-fluid main">
+  <h3 id="subtitle" class="animate__animated animate__heartBeat col-md-9">Track your shoppin' favorites!</h3>
   <div class="row">
-    <div class="col">
+    <div class="col-sm-12 col-md-9 col-lg-10">
       <div class="row no-gutters">
         <div class="container text-center">
-          <h3 id="subtitle" class="animate__animated animate__heartBeat">Track your shoppin' favorites!</h3>
         </div>
       </div>
-      <div class="container-fluid">
         <form id="add-item-form" style="display: flex">
           <div class="input-group mb-3">
-            <input type="text" id="url-input" id="url-input" class="new-item form-control" placeholder="Enter an Item URL">
+            <input type="text" id="url-input" id="url-input" class="new-item form-control" placeholder="Paste URL to watch for price drop...">
             <div class="input-group-append">
               <button class="btn btn-outline-primary" type="submit">
                 <i class="material-icons fs-2">add_shopping_cart</i>
@@ -43,18 +44,18 @@
               <div class="spinner-border spinner-border-sm text-muted spinner-small invisible mb-1" role="status">
                 <span class="sr-only">Loading...</span>
               </div>
-              Check All</button>
+             <span id="updating"> Check All</span></button>
             </div>
             {{#each items}}
             {{> items/item-block}}
             {{/each}}
         </div>
-      </div>
     </div>
-      <div class="card mr-2 pt-2">
+    <div class="col-md-3 col-lg-2">
+      <div class="card pt-2 mb-2">
         <div class="card-body">
           <p class="card-title text-muted text-center" id="date"></p>
-          <table id="table" class="table table-sm text-center">
+            <table id="table" class="table table-sm text-center">
             <thead>
               <tr>
                 <th scope="col">cur</th>
@@ -65,6 +66,33 @@
           </table>
         </div>
       </div>
+      <div class="col">
+        <a href="https://www.kijiji.ca/" target="blank">
+          <img class="img-fluid my-2" src="/images/kijiji.jpg" alt="Kijiji logo">
+        </a>
+      </div>
+      <div class="col">
+        <a href="https://www.amazon.ca/" target="blank">
+          <img class="img-fluid my-2" src="/images/amazon.jpg" alt="Amazon logo">
+        </a>
+      </div>
+      <div class="col">
+        <a href="https://www.ebay.com/" target="blank">
+          <img class="img-fluid my-2" src="/images/ebay.jpg" alt="Ebay logo">
+        </a>
+      </div>
+      <div class="col">
+        <a href="https://www.bestbuy.ca/" target="blank">
+          <img class="img-fluid my-2" src="/images/bestbuy.jpg" alt="Best Buy logo">
+        </a>
+      </div>
+      <div class="col">
+        <a href="https://www.getoutsideshoes.com/" target="blank">
+          <img class="img-fluid my-2" src="/images/getoutside.jpg" alt="Get Outside logo">
+        </a>
+      </div>
+      <div class="col py-4">And many more...</div>
+    </div>
   </div>
 </div>
 

@@ -31,15 +31,13 @@ $(document).ready(function() {
     };
 
     if (!userData.email || !userData.password) {
-
       return;
     }
 
-    $('.login').addClass('animate__animated, animate__zoomOut');
     // If we have an email and password we run the loginUser function and clear the form
     loginUser(userData.email, userData.password);
-    emailInput.val("");
-    passwordInput.val("");
+      // emailInput.val("");
+      // passwordInput.val("");
   });
 
   // loginUser does a post to our "api/login" route and if successful, redirects us the the members page
@@ -49,11 +47,16 @@ $(document).ready(function() {
       password: password
     })
       .then(function() {
+        $('.login').addClass('animate__animated, animate__zoomOut');
         window.location.replace("/dashboard");
         // If there's an error, log the error
       })
       .catch(function(err) {
-        console.log(err);
+        // Mark input feilds as not correct
+        $('#login').removeClass('was-validated');
+        $('#email-input').addClass('is-invalid');
+        $('#password-input').addClass('is-invalid');
+        console.log(err.responseText);
       });
   }
   // Add animations and redirect on buttons click

@@ -4,6 +4,7 @@ const puppeteer = require('puppeteer');
 async function scrapeItem(url, cb) {
     // Shorten url if there is a '?' after url for params
     url = url.substring(0, url.indexOf('?') === -1 ? url.length: url.indexOf('?'));
+    try {
     const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'], // Updated args to run on heroku
@@ -21,27 +22,41 @@ async function scrapeItem(url, cb) {
         }
     });
 
-  console.log(`Navigating to ${url}...`);
-  try {
+    async function cleanup() {
+        try {
+          console.log("Cleaning up instances");
+          await page.close();
+          await browser.close();
+        } catch (e) {
+          console.log("Cannot cleanup istances");
+        }
+      }
+  
+  
+    console.log(`Navigating to ${url}...`);
     await page.goto(url, { waitUntil: 'networkidle2' }); // wait till html is loaded
-  } catch (err) {
-      console.log(err);
-  }
+  
     // function - promise to scrape and return item object
-  let itemPromise = (url) => new Promise(async(resolve, reject) => {
+    let itemPromise = (url) => new Promise(async(resolve, reject) => {
         let product = await page.evaluate(async () => {
             let results = {};
             // Scrape title|name of product
-
             let items = document.querySelectorAll(`.pdp-header__product-name, .page-title > span, [class*="product-title"], 
-                  [class*="productName"], [class*="product-name"], [class*="productTitle"], .product-detail__title h1, [class*="mainColumn-"] div [class*="title-"], 
-                  #itemTitle`);
+                  [class*="productName"], [class*="product-name"], [class*="productTitle"], .product-detail__title h1, 
+                  [class*="mainColumn-"] div [class*="title-"], #itemTitle`);
 
             items.forEach(item => {
-                if (item.innerText) {
+                if (item.innerText !== "") {
                     results.title = item.innerText.trim();
                 };
             });
+            
+            const amazonTitle = document.querySelector('#productTitle')
+
+            if (amazonTitle) {
+                results.title = amazonTitle.innerText.trim();
+            }
+
             // Scrape image of product
             let img = document.querySelectorAll(`.imgTagWrapper img, [class*="productImage"], .static-product-image, 
                                                     [class*="heroImageForPrint"]`);
@@ -56,9 +71,7 @@ async function scrapeItem(url, cb) {
                  if (imgEl) {
                     results.imgURL = imgEl.getAttribute('content');
                  }
-                 
             }
-
             let ebayImg = document.querySelector('#viEnlargeImgLayer_layer_fs_thImg0 > table > tr> td > div > img');
             if (ebayImg) {
                 results.imgURL = ebayImg.src;
@@ -68,25 +81,37 @@ async function scrapeItem(url, cb) {
             let prices = document.querySelectorAll(`[class*="price"], [class*="Price"], [class*="price__total"], 
                                                     .price__total-value price__total--on-sale`);
             let amazonPrice = document.querySelector('#priceblock_ourprice');
+            let amazonPrice1 = document.querySelector('#priceblock_saleprice');
             let ebayPrice = document.querySelector('#prcIsum');
-            let bestBuyPrice = document.querySelector('.screenReaderOnly_3anTj'); 
+            let bestBuyPrice = document.querySelector('.screenReaderOnly_3anTj');
+            const getOutsideShoesPrice = document.querySelector('.product-info-price .price');
             prices.forEach((item) => {
                 if (item.innerText) {
                     results.initialPrice = Number(item.innerText.replace(/[^0-9\.]+/g,""));
                 }
             });
             if (amazonPrice) {
-                results.initialPrice = Number(amazonPrice.innerText.replace(/[^0-9\.]+/g,""));
-            }
+                if (amazonPrice.innerText) {
+                    results.initialPrice = Number(amazonPrice.innerText.replace(/[^0-9\.]+/g,""));
+                }
+            };
+            if (amazonPrice1) {
+                if (amazonPrice1.innerText) {
+                    results.initialPrice = Number(amazonPrice1.innerText.replace(/[^0-9\.]+/g,""));
+                }
+            };
 
             if (ebayPrice) {
                 results.initialPrice = Number(ebayPrice.innerText.replace(/[^0-9\.]+/g,""));
-            }
+            };
 
             if (bestBuyPrice) {
                 results.initialPrice = Number(bestBuyPrice.innerText.replace(/[^0-9\.]+/g,""));
-                results.bestbuy = bestBuyPrice;
-            }
+            };
+
+            if (getOutsideShoesPrice) {
+                results.initialPrice = Number(getOutsideShoesPrice.innerText.replace(/[^0-9\.]+/g,""));
+            };
 
             // Scrape description
             let description = document.querySelectorAll(`.product-description-blurb__text, [class*="description"], [class*="Description"], 
@@ -104,14 +129,13 @@ async function scrapeItem(url, cb) {
                     }
                 }
             });
-
+            // If could not scrape description add title as description
             if (!results.description) {
                 results.description = results.title;
             }
             return results;
         });
         
-        await page.close();
         if (!product.imgURL) {
             product.imgURL = "/images/blank.gif";
         };
@@ -120,14 +144,16 @@ async function scrapeItem(url, cb) {
         reject('Unable!')
     });
 
-    try{
         const item = await itemPromise(url);
         cb(item);
+        await cleanup();
     }
     catch (err) {
         console.log('unable to get', err);
+        cb(err);
+        await cleanup();
     }
-    await browser.close();
-}
+    
+};
 
 module.exports = scrapeItem;

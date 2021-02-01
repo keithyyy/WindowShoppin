@@ -11,37 +11,45 @@ $(document).ready(function() {
             $('#table tbody').append(html);
         }
         drawTable(data);
+    }).catch(err => {
+        console.log(err);
+        window.location.replace('/dashboard');
     });
-
-    // Activate function to fade in cards as they scrolled down
+    
+    /// Activate function to fade in cards as they scrolled down
     $(window).on("load",function() {
         $(window).scroll(function() {
-          let windowBottom = $(this).scrollTop() + $(this).innerHeight();
-          $(".fade").each(function() {
-            /* Check the location of each desired element */
-            let objectBottom = $(this).offset().top + $(this).outerHeight();
-            
-            /* If the element is completely within bounds of the window, fade it in */
-            if (objectBottom - 200 < windowBottom) { //object comes into view (scrolling down)
-              if ($(this).css("opacity")==0) {$(this).fadeTo(200,1);}
-            } 
-          });
+            let windowBottom = $(this).scrollTop() + $(this).innerHeight();
+            $(".fade").each(function() {
+                /* Check the location of each desired element */
+                let objectTop = $(this).offset().top;
+                /* If the element is completely within bounds of the window, fade it in */
+                if (objectTop + 50 < windowBottom) { //object comes into view (scrolling down)
+                if ($(this).css("opacity")==0) {$(this).fadeTo(200,1);}
+                } 
+            });
         }).scroll(); //invoke scroll-handler on page-load
-      });
+    });
 
-    // This file just does a GET request to figure out which user is logged in
-    // and updates the HTML on the page
-    $.get("/api/user_data").then(function(data) {
+    // GET request to figure out which user is logged in
+    // and update the HTML on the page
+    $.get("/api/user_data").then((data) => {
         $(".member-name").text(data.email);
     });
 
+    // Logout button click handler
+    $('#logout').on('click', () => {
+        sessionStorage.removeItem("session");
+        window.location.replace("/logout")
+    });
+
     // Getting references to our form and input
-    var addItemForm = $("form#add-item-form");
-    var urlInput = $("input#url-input");
+    const addItemForm = $("form#add-item-form");
+    const urlInput = $("input#url-input");
     // Add Item handler
-    addItemForm.on("submit", function(event) {
+    addItemForm.on("submit", (event) => {
         event.preventDefault();
-        var itemUrlData = {
+        let itemUrlData = {
           url: urlInput.val().trim()
         };
         if (!itemUrlData.url) {
@@ -56,15 +64,31 @@ $(document).ready(function() {
     });
 
     // References for Note form and input
-    var addNoteForm = $("form#add-note");
-    var noteInput = $("textarea#note-input");
-    var itemID = $("button#selected-id").attr("data-item-id");
+    const addNoteForm = $("form#add-note");
+    const noteInput = $("textarea#note-input");
+    const itemID = $("button#selected-id").attr("data-item-id");
     noteInput.val($('#note').text());
 
+    // Helper function to add note
+    const addNoteInfo = (note) => {
+        $.ajax({
+            url: "/api/items/" + note.id,
+            type: 'PUT',
+            data: note,
+            success: (result) => {
+                console.log(result,note.id, ' item is updated');
+                window.location.replace('/item/'+ note.id);
+            }
+        }).fail(err => {
+            console.log(err);
+            window.location.replace('/dashboard');
+        });
+    };
+
     // Add note handler
-    addNoteForm.on("submit", function(event) {
+    addNoteForm.on("submit", (event) => {
         event.preventDefault();
-        var noteData = {
+        const noteData = {
             id: itemID,
             note: noteInput.val().trim()
         };
@@ -72,34 +96,11 @@ $(document).ready(function() {
         noteInput.val("")
     })
 
-    function addNoteInfo(note) {
-        $.ajax({
-            url: "/api/items/" + note.id,
-            type: 'PUT',
-            data: note,
-            success: function(result) {
-                console.log(result,note.id, ' item is updated');
-                window.location.replace('/item/'+ note.id);
-            }
-        })
-    }
-
     // References for Category input
-    var addCategoryForm = $("form#add-category");
-    var categoryInput = $("input#category-input");
-
-    // Add Category Handler
-    addCategoryForm.on("submit", function(event) {
-        event.preventDefault();
-        var categoryData = {
-            id: itemID,
-            category: categoryInput.val().trim()
-        };
-        addCategoryInfo(categoryData);
-        categoryInput.val("")
-    })
-    
-    function addCategoryInfo(category) {
+    const addCategoryForm = $("form#add-category");
+    const categoryInput = $("input#category-input");
+    // Helper function to add category
+    const addCategoryInfo = (category) => {
         $.ajax({
             url: "/api/items/" + category.id,
             type: 'PUT',
@@ -108,21 +109,34 @@ $(document).ready(function() {
                 console.log('item is updated!');
                 window.location.replace('/item/'+category.id);
             }
-        })
+        }).fail(err => {
+            console.log(err);
+            window.location.replace('/dashboard');
+        });
     }
 
+    // Add Category Handler
+    addCategoryForm.on("submit", (event) => {
+        event.preventDefault();
+        const categoryData = {
+            id: itemID,
+            category: categoryInput.val().trim()
+        };
+        addCategoryInfo(categoryData);
+        categoryInput.val("")
+    })
+    
     // View item handler
     $('.view-item').on('click', function() {
         const itemId = ($(this).attr('data-item-id'));
-        console.log(itemId);
         window.location.replace('/item/'+ itemId);
-    })
+    });
 
     // Go back to full dashboard handler
     $('.back-to-dash').on('click', function() {
         console.log("redirecting to dash...")
         window.location.replace('/dashboard');
-    })
+    });
 
     // Delete button handler
     $('.delete').on('click', function(){
@@ -136,6 +150,9 @@ $(document).ready(function() {
                 console.log(result, ' item is deleted');
                 window.location.replace('/dashboard');
             }
+        }).fail(err => {
+            console.log(err);
+            window.location.replace('/dashboard');
         });
     });
 
@@ -145,8 +162,11 @@ $(document).ready(function() {
             url: '/api/scrape/' + itemId,
             type: 'POST',
             success: cb()
+        }).fail(err => {
+            console.log(err);
+            window.location.replace('/dashboard');
         });
-    }
+    };
 
     // Check button handler
     $('.check-update').on('click', async function(){
@@ -173,37 +193,50 @@ $(document).ready(function() {
         $.post("/api/scrape", {
             url: url
         })
-        .then(function(data) {    
-            if (data.title) {
+        .then(function(data) {   
                 // Reload the page so the user can see the new item
                 console.log('Added new item!', data.title);
                 window.location.replace('/dashboard');
-            }
+        }). catch (err => {
             $('.error-msg').removeClass('invisible');
             $('.error-msg').addClass('animate__animated animate__zoomIn');
-            console.log('unable to scrape from this URL');
+            console.log(err.responseText);
             setTimeout(() => {
                 window.location.replace('/dashboard');
             }, 2000);
-        })
+        });
     }
 
     // Function to check all items for updates
-    const checkForUpdates = async () => {
-        $.get("/api/items").then(items => {
-            console.log('Checking items for update in background');
-            items.forEach(item => {
-                checkItemforUpdate(item.id, () => {});
+    const checkForUpdates = async (items) => {
+        $('.spinner-small').removeClass('invisible');
+        $('#updating').text(' Checking...')
+            const itemsPromises = items.map(async item => {
+                const itemUpdated = await checkItemforUpdate(item.id, () => {});
+                return itemUpdated;
             });
-        }).then(() => {
-            console.log('Checked all items for update');
-            window.location.replace('/dashboard');
-        })
+        await Promise.all(itemsPromises);
+        window.location.replace('/dashboard');
     };
-
+        
     // Check All button handler
     $('#update-all').on('click', async function() {
-        $('.spinner-small').removeClass('invisible');
-        await checkForUpdates();
-    })
+        $.get("/api/items").then(items => {
+            console.log('Checking items for update in background');
+            checkForUpdates(items);
+        })
+        .fail(err => {
+            console.log(err);
+            window.location.replace('/dashboard');
+        });
+    });
+
+    // Trigger button 'Check All' on first login to check all items for update
+    const isSameSession = sessionStorage.getItem("session");
+    // Check if this is first time user logged in and save to session stoarge true
+    if (!isSameSession) {
+        $('#update-all').trigger('click');
+        console.log('Click update all');
+        sessionStorage.setItem("session", true);
+      };
 });

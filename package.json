@@ -4,7 +4,7 @@
   "description": "Window Shoppin app to track your favorite items to shop",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "eslint server.js && npx mocha ./tests/index-spec.js --exit",
     "start": "node server.js",
     "watch": "nodemon server.js"
   },
@@ -24,6 +24,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bcryptjs": "2.4.3",
+    "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.0",

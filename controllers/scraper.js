@@ -4,6 +4,7 @@ const puppeteer = require('puppeteer');
 async function scrapeItem(url, cb) {
     // Shorten url if there is a '?' after url for params
     url = url.substring(0, url.indexOf('?') === -1 ? url.length: url.indexOf('?'));
+    try {
     const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'], // Updated args to run on heroku
@@ -31,7 +32,7 @@ async function scrapeItem(url, cb) {
         }
       }
   
-  try {
+  
     console.log(`Navigating to ${url}...`);
     await page.goto(url, { waitUntil: 'networkidle2' }); // wait till html is loaded
   

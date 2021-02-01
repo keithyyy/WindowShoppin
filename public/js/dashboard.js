@@ -1,5 +1,3 @@
-// const { combineTableNames } = require("sequelize/types/lib/utils");
-
 $(document).ready(function() {
     let dateToday = moment().format('ll'); // get todays date using moment.js
     // Make call to API on server to get currencies and output to page
@@ -17,28 +15,24 @@ $(document).ready(function() {
         console.log(err);
         window.location.replace('/dashboard');
     });
-
-    // Check if device is mobile or desktop to disable fade in cards on mobiles
-    if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-        /// Activate function to fade in cards as they scrolled down
-        $(window).on("load",function() {
-            $(window).scroll(function() {
+    
+    /// Activate function to fade in cards as they scrolled down
+    $(window).on("load",function() {
+        $(window).scroll(function() {
             let windowBottom = $(this).scrollTop() + $(this).innerHeight();
             $(".fade").each(function() {
                 /* Check the location of each desired element */
                 let objectTop = $(this).offset().top;
-                
                 /* If the element is completely within bounds of the window, fade it in */
                 if (objectTop + 50 < windowBottom) { //object comes into view (scrolling down)
                 if ($(this).css("opacity")==0) {$(this).fadeTo(200,1);}
                 } 
             });
-            }).scroll(); //invoke scroll-handler on page-load
-        });
-      };
+        }).scroll(); //invoke scroll-handler on page-load
+    });
 
-    // This file just does a GET request to figure out which user is logged in
-    // and updates the HTML on the page
+    // GET request to figure out which user is logged in
+    // and update the HTML on the page
     $.get("/api/user_data").then((data) => {
         $(".member-name").text(data.email);
     });

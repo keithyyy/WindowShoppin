@@ -52,6 +52,7 @@ module.exports = function(app) {
 
   // Route for logging user out
   app.get("/logout", function(req, res) {
+    console.log('User logged out... Bye!');
     req.logout();
     res.redirect("/");
   });
@@ -165,7 +166,6 @@ module.exports = function(app) {
       if (req.body.url) {
         // scraperController(req.body.url, (data) => {
         scrapeItem(req.body.url, (data) => {
-          console.log('scraped: ', data);
           // save to db and return
           if (data.title) {
             data.UserId = req.user.id;

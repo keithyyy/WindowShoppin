@@ -21,14 +21,22 @@ async function scrapeItem(url, cb) {
         }
     });
 
-  console.log(`Navigating to ${url}...`);
+    async function cleanup() {
+        try {
+          console.log("Cleaning up instances");
+          await page.close();
+          await browser.close();
+        } catch (e) {
+          console.log("Cannot cleanup istances");
+        }
+      }
+  
   try {
-    await page.goto(url, { waitUntil: 'networkidle0' }); // wait till html is loaded
-  } catch (err) {
-      console.log(err);
-  }
+    console.log(`Navigating to ${url}...`);
+    await page.goto(url, { waitUntil: 'networkidle2' }); // wait till html is loaded
+  
     // function - promise to scrape and return item object
-  let itemPromise = (url) => new Promise(async(resolve, reject) => {
+    let itemPromise = (url) => new Promise(async(resolve, reject) => {
         let product = await page.evaluate(async () => {
             let results = {};
             // Scrape title|name of product
@@ -72,6 +80,7 @@ async function scrapeItem(url, cb) {
             let prices = document.querySelectorAll(`[class*="price"], [class*="Price"], [class*="price__total"], 
                                                     .price__total-value price__total--on-sale`);
             let amazonPrice = document.querySelector('#priceblock_ourprice');
+            let amazonPrice1 = document.querySelector('#priceblock_saleprice');
             let ebayPrice = document.querySelector('#prcIsum');
             let bestBuyPrice = document.querySelector('.screenReaderOnly_3anTj');
             const getOutsideShoesPrice = document.querySelector('.product-info-price .price');
@@ -81,7 +90,14 @@ async function scrapeItem(url, cb) {
                 }
             });
             if (amazonPrice) {
-                results.initialPrice = Number(amazonPrice.innerText.replace(/[^0-9\.]+/g,""));
+                if (amazonPrice.innerText) {
+                    results.initialPrice = Number(amazonPrice.innerText.replace(/[^0-9\.]+/g,""));
+                }
+            };
+            if (amazonPrice1) {
+                if (amazonPrice1.innerText) {
+                    results.initialPrice = Number(amazonPrice1.innerText.replace(/[^0-9\.]+/g,""));
+                }
             };
 
             if (ebayPrice) {
@@ -119,7 +135,6 @@ async function scrapeItem(url, cb) {
             return results;
         });
         
-        await page.close();
         if (!product.imgURL) {
             product.imgURL = "/images/blank.gif";
         };
@@ -128,14 +143,16 @@ async function scrapeItem(url, cb) {
         reject('Unable!')
     });
 
-    try{
         const item = await itemPromise(url);
         cb(item);
+        await cleanup();
     }
     catch (err) {
         console.log('unable to get', err);
+        cb(err);
+        await cleanup();
     }
-    await browser.close();
+    
 };
 
 module.exports = scrapeItem;

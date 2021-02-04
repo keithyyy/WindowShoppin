@@ -43,6 +43,12 @@ $(document).ready(function() {
         window.location.replace("/logout")
     });
 
+    // Logo image click handler to redirect to dashboard
+  $('#logo-ws').on('click', () => {
+    console.log('redirecting to dash...');
+    window.location.replace('/dashboard');
+  });
+  
     // Getting references to our form and input
     const addItemForm = $("form#add-item-form");
     const urlInput = $("input#url-input");

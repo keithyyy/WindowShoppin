@@ -1,6 +1,8 @@
 // Requiring necessary npm packages
 const express = require('express');
 const session = require('express-session');
+
+var compression = require('compression')
 // Requiring passport as we've configured it
 
 const exphbs = require('express-handlebars');
@@ -15,6 +17,9 @@ const db = require('./models');
 
 // Creating express app and configuring middleware needed for authentication
 const app = express();
+// Use compression
+app.use(compression());
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
